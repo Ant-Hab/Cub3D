@@ -48,11 +48,14 @@ typedef struct s_game
 	t_map		map;
 }	t_game;
 
-/* parsing */
-void	parse_file(char *path, t_game *game);
+/* Parsing */
+void	parse(char *path, t_game *game);
 
-/* utils */
-void	error_exit(char *msg);
+/* Game Logic */
+void	setup_run_game(t_game *game);
+
+/* Utils & Memory */
+void	error_exit(t_game *game, char *msg);
 void	free_game(t_game *game);
 
 #endif

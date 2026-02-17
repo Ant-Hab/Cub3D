@@ -6,7 +6,7 @@
 #    By: achowdhu <achowdhu@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/27 14:25:57 by achowdhu          #+#    #+#              #
-#    Updated: 2026/01/27 14:34:02 by achowdhu         ###   ########.fr        #
+#    Updated: 2026/02/17 13:33:10 by achowdhu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ LIBFT_DIR   := libft
 MLX_DIR     := minilibx
 
 # Source and Object Files
-SRCS        := 
+SRCS        := parse_files.c
 OBJS        := $(addprefix $(OBJ_DIR)/,$(SRCS:.c=.o))
 
 # Library

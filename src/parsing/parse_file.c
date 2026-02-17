@@ -6,33 +6,44 @@
 /*   By: achowdhu <achowdhu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 14:35:24 by achowdhu          #+#    #+#             */
-/*   Updated: 2026/01/27 14:35:28 by achowdhu         ###   ########.fr       */
+/*   Updated: 2026/02/17 14:52:00 by achowdhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static void	init_game(t_game *game)
+static void	check_file_type(char *path, t_game *game)
 {
-	game->textures.no = NULL;
-	game->textures.so = NULL;
-	game->textures.we = NULL;
-	game->textures.ea = NULL;
-	game->map.grid = NULL;
+	int	len;
+
+	len = ft_strlen(path);
+	if (len < 4 || ft_strncmp(path + len - 4, ".cub", 4) != 0)
+		error_exit(game, "Invalid file type: expected .cub");
 }
 
-void	parse_file(char *path, t_game *game)
+static void	parse_metadata(int fd, t_game *game)
+{
+	(void)fd;
+	(void)game;
+	/* Logic for textures and colors goes here */
+}
+
+static void	parse_map_data(int fd, t_game *game)
+{
+	(void)fd;
+	(void)game;
+	/* Logic for the grid and flood fill goes here */
+}
+
+void	parse(char *path, t_game *game)
 {
 	int	fd;
 
-	init_game(game);
+	check_file_type(path, game);
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
-		error_exit("Failed to open file");
-
-	/* STEP 1: parse textures & colors */
-	/* STEP 2: parse map */
-	/* STEP 3: validate map */
-
+		error_exit(game, NULL);
+	parse_metadata(fd, game);
+	parse_map_data(fd, game);
 	close(fd);
 }

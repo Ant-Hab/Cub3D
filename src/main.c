@@ -6,31 +6,41 @@
 /*   By: achowdhu <achowdhu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 14:29:42 by achowdhu          #+#    #+#             */
-/*   Updated: 2026/01/27 14:34:54 by achowdhu         ###   ########.fr       */
+/*   Updated: 2026/02/17 14:52:54 by achowdhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+static void	init_game_data(t_game *game)
+{
+	game->textures.no = NULL;
+	game->textures.so = NULL;
+	game->textures.we = NULL;
+	game->textures.ea = NULL;
+	game->floor.r = -1;
+	game->floor.g = -1;
+	game->floor.b = -1;
+	game->ceiling.r = -1;
+	game->ceiling.g = -1;
+	game->ceiling.b = -1;
+	game->map.grid = NULL;
+	game->map.width = 0;
+	game->map.height = 0;
+}
 
 int	main(int argc, char **argv)
 {
 	t_game	game;
 
 	if (argc != 2)
-		error_exit("Usage: ./cub3D <map.cub>");
-
-	parse_file(argv[1], &game);
-
-	/* TEMP DEBUG */
-	printf("NO: %s\n", game.textures.no);
-	printf("SO: %s\n", game.textures.so);
-	printf("WE: %s\n", game.textures.we);
-	printf("EA: %s\n", game.textures.ea);
-	printf("F: %d,%d,%d\n", game.floor.r,
-		game.floor.g, game.floor.b);
-	printf("C: %d,%d,%d\n", game.ceiling.r,
-		game.ceiling.g, game.ceiling.b);
-
+	{
+		printf("Error\nUsage: ./cub3d <map.cub>\n");
+		return (1);
+	}
+	init_game_data(&game);
+	parse(argv[1], &game);
+	setup_run_game(&game);
 	free_game(&game);
 	return (0);
 }
