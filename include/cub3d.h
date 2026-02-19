@@ -17,6 +17,8 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <stdio.h>
+# include <stdbool.h>
+# include "../libft/include/libft.h"
 
 typedef struct s_texture
 {
@@ -38,6 +40,8 @@ typedef struct s_map
 	char	**grid;
 	int		width;
 	int		height;
+	int		p_x;
+	int		p_y;
 }	t_map;
 
 typedef struct s_game
@@ -46,19 +50,37 @@ typedef struct s_game
 	t_color		floor;
 	t_color		ceiling;
 	t_map		map;
+	void		*mlx;
+	void		*win;
 }	t_game;
 
 /* Parsing */
-void	parse(char *path, t_game *game);
+t_game	*parse(char *argv);
+bool	is_identifier_line(char *line);
+void	store_identifier(t_game *game, char *line);
+bool	all_identifiers_set(t_game *game);
+char	*skip_to_map_start(int fd);
+void	store_color(t_color *color, char *path);
+void	convert_list_to_grid(t_list *lst, t_map *map);
+char	**copy_grid(char **grid, int height);
+int		get_player_pos(t_map *map);
+bool	is_closed(char **grid, int x, int y, int height);
 
-/* Game Logic */
-void	setup_run_game(t_game *game);
-
-/* Utils & Memory */
+/* Utils */
 void	error_exit(t_game *game, char *msg);
 void	free_game(t_game *game);
+void	free_tab(char **tab);
+int		flood_fill(char **copy, int x, int y, int max_y);
+bool	empty_line(char *line);
+
+
+/* Debug */
+void	print_textures(t_game *game);
+void	print_map(t_map *map);
+void    debug_validate_parsing(t_game *game);
 
 #endif
+
 // refer Data Structure
 
 // typedef struct s_player

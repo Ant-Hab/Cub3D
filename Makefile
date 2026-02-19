@@ -5,8 +5,8 @@
 #                                                     +:+ +:+         +:+      #
 #    By: achowdhu <achowdhu@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2026/01/27 14:25:57 by achowdhu          #+#    #+#              #
-#    Updated: 2026/02/17 13:33:10 by achowdhu         ###   ########.fr        #
+#    Created: 2025/09/29 17:14:37 by achowdhu          #+#    #+#              #
+#    Updated: 2026/02/17 18:29:35 by achowdhu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,24 +18,24 @@ NAME        := cub3d
 
 # Compiler and Flags
 CC          := cc
-CFLAGS      := -Wall -Wextra -Werror
+CFLAGS		:= -Wall -Wextra -Werror -g
 
 # Directories
 SRC_DIR     := src
 OBJ_DIR     := obj
+INC_DIR     := include
 LIBFT_DIR   := libft
-MLX_DIR     := minilibx
 
 # Source and Object Files
-SRCS        := parse_files.c
-OBJS        := $(addprefix $(OBJ_DIR)/,$(SRCS:.c=.o))
+SRCS        := $(shell find $(SRC_DIR) -name "*.c")
+OBJS        := $(addprefix $(OBJ_DIR)/,$(SRCS:$(SRC_DIR)/%.c=%.o))
 
 # Library
 LIBFT       := $(LIBFT_DIR)/libft.a
-MLX_LIB     := -L$(MLX_DIR) -lmlx -lXext -lX11 -lm -lbsd
+READLINE    := -lreadline
 
 # Includes
-INC         := -Iinclude -I$(LIBFT_DIR)/include -I$(MLX_DIR)
+INC         := -I$(INC_DIR) -I$(LIBFT_DIR)/include
 
 # ========================================
 #               Colors
@@ -53,11 +53,12 @@ all: $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT)
 	@echo "$(GREEN)[Linking]$(RESET) $(NAME)"
-	@$(CC) $(CFLAGS) $(INC) $(OBJS) $(LIBFT) $(MLX_LIB) -o $(NAME)
+	@$(CC) $(CFLAGS) $(INC) $(OBJS) $(LIBFT) $(READLINE) -o $(NAME)
 	@echo "$(GREEN)✔ $(NAME) built successfully!$(RESET)"
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
 	@echo "$(GREEN)[Compiling]$(RESET) $<"
+	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) $(INC) -c $< -o $@
 
 $(OBJ_DIR):
@@ -76,9 +77,12 @@ fclean: clean
 	@echo "$(YELLOW)[Removing]$(RESET) $(NAME)"
 	@rm -f $(NAME)
 	@$(MAKE) -C $(LIBFT_DIR) fclean
-	@echo "$(GREEN)✔ All files removed successfully!$(RESET)"
 
 re: fclean all
 
-.SECONDARY: $(OBJS)
+# ========================================
+#              Special Rules
+# ========================================
+
 .PHONY: all clean fclean re
+.SECONDARY:
