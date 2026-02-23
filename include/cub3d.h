@@ -12,6 +12,8 @@
 
 #ifndef CUB3D_H
 # define CUB3D_H
+# define WIDTH 1920
+# define HEIGHT 1080
 
 # include <stdlib.h>
 # include <unistd.h>
