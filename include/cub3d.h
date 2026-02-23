@@ -54,6 +54,8 @@ typedef struct s_game
 	t_map		map;
 	void		*mlx;
 	void		*win;
+	int			width;
+	int			height;
 }	t_game;
 
 /* Parsing */
@@ -63,7 +65,7 @@ void	store_identifier(t_game *game, char *line);
 bool	all_identifiers_set(t_game *game);
 char	*skip_to_map_start(int fd);
 void	store_color(t_color *color, char *path);
-void	convert_list_to_grid(t_list *lst, t_map *map);
+// void	convert_list_to_grid(t_list *lst, t_map *map);
 char	**copy_grid(char **grid, int height);
 int		get_player_pos(t_map *map);
 bool	is_closed(char **grid, int x, int y, int height);
