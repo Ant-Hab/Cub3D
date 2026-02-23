@@ -21,6 +21,7 @@
 # include <stdio.h>
 # include <stdbool.h>
 # include "../libft/include/libft.h"
+# include <MLX42/include/MLX42/MLX42.h>
 
 typedef struct s_texture
 {
@@ -44,19 +45,51 @@ typedef struct s_map
 	int		height;
 	int		p_x;
 	int		p_y;
+	t_player *player;
 }	t_map;
+
+
+typedef struct s_player
+{
+	// 현재 위치 (x, y)
+	float	x;
+	float	y;
+
+	// 방향 벡터
+	float	dir_x;
+	float	dir_y;
+
+	// 카메라 평면 벡터 (2D 레이캐스팅용)
+	float	plane_x;
+	float	plane_y;
+
+	// 이동/회전 속도
+	float	move_speed;
+	float	rot_speed;
+
+}	t_player;
 
 typedef struct s_game
 {
 	t_texture	textures;
 	t_color		floor;
 	t_color		ceiling;
-	t_map		map;
-	void		*mlx;
-	void		*win;
+	t_map		*map;
+	void		*player;       // player struct inneed
+	mlx_t		*mlx;
+	mlx_image_t	*img;
 	int			width;
 	int			height;
+
+	// key 
+	bool		forward;
+	bool		back;
+	bool		left;
+	bool		right;
+	bool		rotate_left;
+	bool		rotate_right;
 }	t_game;
+
 
 /* Parsing */
 t_game	*parse(char *argv);
