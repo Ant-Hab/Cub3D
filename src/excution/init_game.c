@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 11:09:19 by jaeklee           #+#    #+#             */
-/*   Updated: 2026/02/23 15:06:45 by jaeklee          ###   ########.fr       */
+/*   Updated: 2026/02/23 16:31:08 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,24 @@ void	init_graphics(t_game *game)
 		error_exit(game, "Image display failed");
 }
 
-// 게임 상태 초기화 + 지도/플레이어 세팅
 void	init_game_state(t_game *game, t_map *map)
 {
-	// 지도와 플레이어 연결
 	game->map = map;
-	game->player = map->player;
+
+	// player 생성
+	game->player = malloc(sizeof(t_player));
+	if (!game->player)
+		error_exit(game, "Player malloc failed");
+
+	// 위치 설정 (중앙 정렬)
+	game->player->x = map->p_x + 0.5f;
+	game->player->y = map->p_y + 0.5f;
+
+	game->player->move_speed = 0.1f;
+	game->player->rot_speed = 0.05f;
+
+	// 방향 설정
+	init_player_direction(game->player, map->start_dir);
 
 	// 키 상태 초기화
 	game->forward = false;
@@ -53,9 +65,52 @@ void	init_game_state(t_game *game, t_map *map)
 	game->right = false;
 	game->rotate_left = false;
 	game->rotate_right = false;
-
-	// 플레이어 초기 방향 설정
-	init_player_north_south(game->player);
-	init_player_east_west(game->player);
 }
 
+void	init_player_direction(t_player *p, char dir)
+{
+	if (dir == 'N')
+		(p->dir_x = 0, p->dir_y = -1);
+	else if (dir == 'S')
+		(p->dir_x = 0, p->dir_y = 1);
+	else if (dir == 'E')
+		(p->dir_x = 1, p->dir_y = 0);
+	else if (dir == 'W')
+		(p->dir_x = -1, p->dir_y = 0);
+
+	// 카메라 평면은 방향 벡터의 수직 벡터
+	p->plane_x = -p->dir_y * 0.66f;
+	p->plane_y = p->dir_x * 0.66f;
+}
+
+// void	init_player_direction(t_player *player, char dir)
+// {
+// 	if (dir == 'N')
+// 	{
+// 		player->dir_x = 0;
+// 		player->dir_y = -1;
+// 		player->plane_x = 0.66f;
+// 		player->plane_y = 0;
+// 	}
+// 	else if (dir == 'S')
+// 	{
+// 		player->dir_x = 0;
+// 		player->dir_y = 1;
+// 		player->plane_x = -0.66f;
+// 		player->plane_y = 0;
+// 	}
+// 	else if (dir == 'E')
+// 	{
+// 		player->dir_x = 1;
+// 		player->dir_y = 0;
+// 		player->plane_x = 0;
+// 		player->plane_y = 0.66f;
+// 	}
+// 	else if (dir == 'W')
+// 	{
+// 		player->dir_x = -1;
+// 		player->dir_y = 0;
+// 		player->plane_x = 0;
+// 		player->plane_y = -0.66f;
+// 	}
+// }

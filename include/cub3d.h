@@ -46,6 +46,7 @@ typedef struct s_map
 	int		p_x;
 	int		p_y;
 	t_player *player;
+	char	start_dir;
 }	t_map;
 
 
@@ -75,7 +76,7 @@ typedef struct s_game
 	t_color		floor;
 	t_color		ceiling;
 	t_map		*map;
-	void		*player;       // player struct inneed
+	t_player	*player;      // player struct inneed
 	mlx_t		*mlx;
 	mlx_image_t	*img;
 	int			width;
