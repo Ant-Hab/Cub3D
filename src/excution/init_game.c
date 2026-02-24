@@ -6,16 +6,17 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 11:09:19 by jaeklee           #+#    #+#             */
-/*   Updated: 2026/02/24 10:47:29 by jaeklee          ###   ########.fr       */
+/*   Updated: 2026/02/24 11:38:35 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void init_game(t_game *game, t_map *map)
+void play_game(t_game *game, t_map *map)
 {
 	init_graphics(game);
 	init_game_state(game, map);
+	load_textures(game);
 }
 
 // MLX42 및 이미지 초기화만 담당
@@ -51,7 +52,6 @@ void	init_game_state(t_game *game, t_map *map)
 	// 위치 설정 (중앙 정렬)
 	game->player->x = map->p_x + 0.5f;
 	game->player->y = map->p_y + 0.5f;
-
 	game->player->move_speed = 0.1f;
 	game->player->rot_speed = 0.05f;
 
@@ -83,36 +83,3 @@ void	init_player_direction(t_player *p, char dir)
 	p->plane_y = p->dir_x * 0.66f;
 }
 
-
-
-// void	init_player_direction(t_player *player, char dir)
-// {
-// 	if (dir == 'N')
-// 	{
-// 		player->dir_x = 0;
-// 		player->dir_y = -1;
-// 		player->plane_x = 0.66f;
-// 		player->plane_y = 0;
-// 	}
-// 	else if (dir == 'S')
-// 	{
-// 		player->dir_x = 0;
-// 		player->dir_y = 1;
-// 		player->plane_x = -0.66f;
-// 		player->plane_y = 0;
-// 	}
-// 	else if (dir == 'E')
-// 	{
-// 		player->dir_x = 1;
-// 		player->dir_y = 0;
-// 		player->plane_x = 0;
-// 		player->plane_y = 0.66f;
-// 	}
-// 	else if (dir == 'W')
-// 	{
-// 		player->dir_x = -1;
-// 		player->dir_y = 0;
-// 		player->plane_x = 0;
-// 		player->plane_y = -0.66f;
-// 	}
-// }

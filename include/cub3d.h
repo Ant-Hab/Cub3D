@@ -20,6 +20,7 @@
 # include <fcntl.h>
 # include <stdio.h>
 # include <stdbool.h>
+# include <math.h>
 # include "../libft/include/libft.h"
 # include <MLX42/include/MLX42/MLX42.h>
 
@@ -117,6 +118,16 @@ void	free_tab(char **tab);
 int		flood_fill(char **copy, int x, int y, int max_y);
 bool	empty_line(char *line);
 
+
+/* Excution*/
+void	game_loop(void *param);
+void play_game(t_game *game, t_map *map);
+void	load_textures(t_game *game);
+
+/* free */
+void	free_game(t_game *game);
+void	error_exit(t_game *game, char *msg);
+void	free_textures(t_game *game);
 
 /* Debug */
 void	print_textures(t_game *game);

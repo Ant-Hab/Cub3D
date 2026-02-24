@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 10:49:52 by jaeklee           #+#    #+#             */
-/*   Updated: 2026/02/24 10:53:35 by jaeklee          ###   ########.fr       */
+/*   Updated: 2026/02/24 11:17:48 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	load_textures(t_game *game)
 {
-	game->texture.no = mlx_load_png(game->texture.no);
+	game->texture.no_tex = mlx_load_png(game->texture.no);
 	if (!game->texture.no_tex)
 		error_and_cleanup(game, "Failed to load north texture");
 
@@ -41,4 +41,14 @@ void	free_textures(t_game *game)
 		mlx_delete_texture(game->texture.we_tex);
 	if (game->texture.ea_tex)
 		mlx_delete_texture(game->texture.ea_tex);
+
+	// 🔥 경로 문자열도 해제 checkit out
+	if (game->texture.no)
+		free(game->texture.no);
+	if (game->texture.so)
+		free(game->texture.so);
+	if (game->texture.we)
+		free(game->texture.we);
+	if (game->texture.ea)
+		free(game->texture.ea);
 }
