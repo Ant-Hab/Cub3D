@@ -22,7 +22,7 @@
 # include <stdbool.h>
 # include <math.h>
 # include "../libft/include/libft.h"
-# include <MLX42/include/MLX42/MLX42.h>
+# include <../MLX42/include/MLX42/MLX42.h>
 
 typedef struct s_texture
 {
@@ -76,6 +76,20 @@ typedef struct s_player
 	float	rot_speed;
 
 }	t_player;
+
+typedef struct s_ray
+{
+	int	player_x;
+	int	player_y;
+	double	dir_x;
+	double	dir_y;
+	double	plane_x;
+	double	plane_y;
+	double	camera_x;
+	double	del_dist_x;
+	double	del_dist_y;
+
+}	t_ray;
 
 typedef struct s_game
 {

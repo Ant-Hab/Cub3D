@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: achowdhu <achowdhu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 11:13:44 by jaeklee           #+#    #+#             */
-/*   Updated: 2026/02/24 11:43:07 by jaeklee          ###   ########.fr       */
+/*   Updated: 2026/02/24 14:37:46 by achowdhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,3 +121,11 @@ void	game_loop(void *param)
 	// raycast(game, game->map);
 }
 
+
+void play_game(t_game *game, t_map *map)
+{
+	init_graphics(game);
+	init_game_state(game, map);
+	load_textures(game);
+	MLX_LOOP(game_loop)
+}
