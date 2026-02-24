@@ -6,7 +6,7 @@
 /*   By: achowdhu <achowdhu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 11:25:59 by jaeklee           #+#    #+#             */
-/*   Updated: 2026/02/24 15:20:43 by achowdhu         ###   ########.fr       */
+/*   Updated: 2026/02/24 15:35:35 by achowdhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void	init_ray(t_game *game, t_ray *ray, int i)
 	ray->player_y = game->player->y;
 	ray->del_dist_x = fabs(1 / ray->dir_x);
 	ray->del_dist_y = fabs(1 / ray->dir_y);
-	//dir
-	//plane
-	//camera
+	ray->hit_wall = 0;
+	ray->hit_axis = 0;
 }

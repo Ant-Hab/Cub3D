@@ -24,6 +24,7 @@
 # include "../libft/include/libft.h"
 # include <../MLX42/include/MLX42/MLX42.h>
 
+/* Wall texture file paths (North, South, West, East) */
 typedef struct s_texture
 {
 	char			*no;
@@ -38,6 +39,7 @@ typedef struct s_texture
 
 }	t_texture;
 
+/* RGB color components for floor and ceiling rendering */
 typedef struct s_color
 {
 	int	r;
@@ -45,6 +47,7 @@ typedef struct s_color
 	int	b;
 }	t_color;
 
+/* Map data including the 2D grid, dimensions, and player spawn */
 typedef struct s_map
 {
 	char	**grid;
@@ -79,8 +82,8 @@ typedef struct s_player
 
 typedef struct s_ray
 {
-	int	player_x;
-	int	player_y;
+	int		player_x;
+	int		player_y;
 	double	dir_x;
 	double	dir_y;
 	double	plane_x;
@@ -88,9 +91,11 @@ typedef struct s_ray
 	double	camera_x;
 	double	del_dist_x;
 	double	del_dist_y;
-
+	int		hit_wall;
+	int		hit_axis;
 }	t_ray;
 
+/* Main engine controller holding all data and MiniLibX pointers */
 typedef struct s_game
 {
 	t_texture	texture;
@@ -135,7 +140,7 @@ bool	empty_line(char *line);
 
 /* Excution*/
 void	game_loop(void *param);
-void play_game(t_game *game, t_map *map);
+void 	play_game(t_game *game, t_map *map);
 void	load_textures(t_game *game);
 
 /* free */
