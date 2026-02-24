@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 11:09:19 by jaeklee           #+#    #+#             */
-/*   Updated: 2026/02/23 16:31:08 by jaeklee          ###   ########.fr       */
+/*   Updated: 2026/02/24 10:47:29 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,8 @@ void	init_player_direction(t_player *p, char dir)
 	p->plane_x = -p->dir_y * 0.66f;
 	p->plane_y = p->dir_x * 0.66f;
 }
+
+
 
 // void	init_player_direction(t_player *player, char dir)
 // {

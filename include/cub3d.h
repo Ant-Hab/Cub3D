@@ -25,10 +25,16 @@
 
 typedef struct s_texture
 {
-	char	*no;
-	char	*so;
-	char	*we;
-	char	*ea;
+	char			*no;
+	char			*so;
+	char			*we;
+	char			*ea;
+
+	mlx_texture_t	*no_tex;
+	mlx_texture_t	*so_tex;
+	mlx_texture_t	*we_tex;
+	mlx_texture_t	*ea_tex;
+
 }	t_texture;
 
 typedef struct s_color
@@ -72,7 +78,7 @@ typedef struct s_player
 
 typedef struct s_game
 {
-	t_texture	textures;
+	t_texture	texture;
 	t_color		floor;
 	t_color		ceiling;
 	t_map		*map;
