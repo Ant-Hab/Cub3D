@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 11:13:44 by jaeklee           #+#    #+#             */
-/*   Updated: 2026/02/24 11:43:07 by jaeklee          ###   ########.fr       */
+/*   Updated: 2026/02/24 12:13:45 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ void	movement(t_game *game)
 	if (game->rotate_right)
 		rotate_player(p, p->rot_speed);
 }
+
 void	draw(t_game *game)
 {
 	int	x;
@@ -121,3 +122,10 @@ void	game_loop(void *param)
 	// raycast(game, game->map);
 }
 
+void play_game(t_game *game, t_map *map)
+{
+	init_graphics(game);
+	init_game_state(game, map);
+	load_textures(game);
+	mlx_loop_hook(game->mlx, game_loop, game);
+}
