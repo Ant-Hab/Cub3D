@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 10:49:52 by jaeklee           #+#    #+#             */
-/*   Updated: 2026/02/24 11:17:48 by jaeklee          ###   ########.fr       */
+/*   Updated: 2026/02/26 17:15:52 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,41 +14,50 @@
 
 void	load_textures(t_game *game)
 {
-	game->texture.no_tex = mlx_load_png(game->texture.no);
-	if (!game->texture.no_tex)
+	if (!game->texture)
+		return;
+
+	game->texture->no_tex = mlx_load_jpeg(game->texture->no);
+	if (!game->texture->no_tex)
 		error_and_cleanup(game, "Failed to load north texture");
 
-	game->texture.so_tex = mlx_load_png(game->texture.so);
-	if (!game->texture.so_tex)
+	game->texture->so_tex = mlx_load_jpeg(game->texture->so);
+	if (!game->texture->so_tex)
 		error_and_cleanup(game, "Failed to load south texture");
 
-	game->texture.we_tex = mlx_load_png(game->texture.we);
-	if (!game->texture.we_tex)
+	game->texture->we_tex = mlx_load_jpeg(game->texture->we);
+	if (!game->texture->we_tex)
 		error_and_cleanup(game, "Failed to load west texture");
 
-	game->texture.ea_tex = mlx_load_png(game->texture.ea);
-	if (!game->texture.ea_tex)
+	game->texture->ea_tex = mlx_load_jpeg(game->texture->ea);
+	if (!game->texture->ea_tex)
 		error_and_cleanup(game, "Failed to load east texture");
 }
 
 void	free_textures(t_game *game)
 {
-	if (game->texture.no_tex)
-		mlx_delete_texture(game->texture.no_tex);
-	if (game->texture.so_tex)
-		mlx_delete_texture(game->texture.so_tex);
-	if (game->texture.we_tex)
-		mlx_delete_texture(game->texture.we_tex);
-	if (game->texture.ea_tex)
-		mlx_delete_texture(game->texture.ea_tex);
+	if (!game->texture)
+		return;
 
-	// 🔥 경로 문자열도 해제 checkit out
-	if (game->texture.no)
-		free(game->texture.no);
-	if (game->texture.so)
-		free(game->texture.so);
-	if (game->texture.we)
-		free(game->texture.we);
-	if (game->texture.ea)
-		free(game->texture.ea);
+	if (game->texture->no_tex)
+		mlx_delete_texture(game->texture->no_tex);
+	if (game->texture->so_tex)
+		mlx_delete_texture(game->texture->so_tex);
+	if (game->texture->we_tex)
+		mlx_delete_texture(game->texture->we_tex);
+	if (game->texture->ea_tex)
+		mlx_delete_texture(game->texture->ea_tex);
+
+	// Free the path strings
+	if (game->texture->no)
+		free(game->texture->no);
+	if (game->texture->so)
+		free(game->texture->so);
+	if (game->texture->we)
+		free(game->texture->we);
+	if (game->texture->ea)
+		free(game->texture->ea);
+
+	free(game->texture);
+	game->texture = NULL;
 }

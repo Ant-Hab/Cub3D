@@ -46,20 +46,6 @@ typedef struct s_color
 	int	g;
 	int	b;
 }	t_color;
-
-/* Map data including the 2D grid, dimensions, and player spawn */
-typedef struct s_map
-{
-	char	**grid;
-	int		width;
-	int		height;
-	int		p_x;
-	int		p_y;
-	t_player *player;
-	char	start_dir;
-}	t_map;
-
-
 typedef struct s_player
 {
 	// 현재 위치 (x, y)
@@ -79,6 +65,19 @@ typedef struct s_player
 	float	rot_speed;
 
 }	t_player;
+/* Map data including the 2D grid, dimensions, and player spawn */
+typedef struct s_map
+{
+	char	**grid;
+	int		width;
+	int		height;
+	int		p_x;
+	int		p_y;
+	t_player *player;
+	char	start_dir;
+}	t_map;
+
+
 
 typedef struct s_ray
 {
@@ -112,7 +111,7 @@ typedef struct s_ray
 /* Main engine controller holding all data and MiniLibX pointers */
 typedef struct s_game
 {
-	t_texture	texture;
+	t_texture	*texture;
 	t_color		floor;
 	t_color		ceiling;
 	t_map		*map;
