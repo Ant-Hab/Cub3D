@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: achowdhu <achowdhu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/26 17:27:50 by achowdhu          #+#    #+#             */
-/*   Updated: 2026/02/26 17:45:27 by jaeklee          ###   ########.fr       */
+/*   Updated: 2026/02/26 18:14:48 by achowdhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "cub3d.h"
 
 /* Convert RGB string to integer values */
 void	store_color(t_color *color, char *path)
