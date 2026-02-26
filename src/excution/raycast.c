@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 11:25:59 by jaeklee           #+#    #+#             */
-/*   Updated: 2026/02/26 16:50:56 by jaeklee          ###   ########.fr       */
+/*   Updated: 2026/02/26 17:48:33 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,16 +102,16 @@ void	dda_and_wall(t_game *game, t_ray *ray)
 			if (ray->hit_axis == 0)  // 세로벽
 			{
 				if (ray->step_x > 0)
-					ray->wall_texture = game->texture.we;
+					ray->wall_texture = game->texture->we;
 				else
-					ray->wall_texture = game->texture.ea;
+					ray->wall_texture = game->texture->ea;
 			}
 			else  // 가로벽
 			{
 				if (ray->step_y > 0)
-					ray->wall_texture = game->texture.no;
+					ray->wall_texture = game->texture->no;
 				else
-					ray->wall_texture = game->texture.so;
+					ray->wall_texture = game->texture->so;
 			}
 		}
 	}

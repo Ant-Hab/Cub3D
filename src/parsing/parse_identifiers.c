@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_identifiers.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achowdhu <achowdhu@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 17:57:42 by achowdhu          #+#    #+#             */
-/*   Updated: 2026/02/19 15:52:59 by achowdhu         ###   ########.fr       */
+/*   Updated: 2026/02/26 17:53:50 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ static void	assign_texture(t_game *game, char **tk, char *path)
 {
 	if (!ft_strcmp(tk[0], "NO"))
 	{
-		free(game->textures.no);
-		game->textures.no = ft_strdup(path);
+		free(game->texture->no);
+		game->texture->no = ft_strdup(path);
 	}
 	else if (!ft_strcmp(tk[0], "SO"))
 	{
