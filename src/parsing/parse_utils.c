@@ -6,7 +6,7 @@
 /*   By: achowdhu <achowdhu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:07:18 by achowdhu          #+#    #+#             */
-/*   Updated: 2026/02/19 15:54:33 by achowdhu         ###   ########.fr       */
+/*   Updated: 2026/02/26 17:27:50 by achowdhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	convert_list_to_grid(t_list *lst, t_map *map)
 	t_list	*curr;
 
 	map->height = ft_lstsize(lst);
-	map->grid = malloc(sizeof(char *) * (map->height + 1));
+	map->grid = ft_calloc(map->height + 1, sizeof(char *));
 	if (!map->grid)
 		return ;
 	curr = lst;
@@ -44,12 +44,17 @@ void	convert_list_to_grid(t_list *lst, t_map *map)
 	while (curr)
 	{
 		map->grid[i] = ft_strdup(curr->content);
+		if (!map->grid[i])
+		{
+			free_tab(map->grid);
+			map->grid = NULL;
+			return ;
+		}
 		if ((int)ft_strlen(map->grid[i]) > map->width)
 			map->width = ft_strlen(map->grid[i]);
 		i++;
 		curr = curr->next;
 	}
-	map->grid[i] = NULL;
 }
 
 /* Duplicates the grid into a new array for flood-fill validation */
@@ -64,6 +69,9 @@ char	**copy_grid(char **grid, int height)
 	if (!copy)
 		return (NULL);
 	i = 0;
+	while (i <= height)
+		copy[i++] = NULL;
+	i = 0;
 	while (i < height && grid[i])
 	{
 		copy[i] = ft_strdup(grid[i]);
@@ -74,7 +82,6 @@ char	**copy_grid(char **grid, int height)
 		}
 		i++;
 	}
-	copy[i] = NULL;
 	return (copy);
 }
 
@@ -106,14 +113,45 @@ int	get_player_pos(t_map *map)
 /* Recursively verifies that the player is fully enclosed by walls */
 bool	is_closed(char **grid, int x, int y, int height)
 {
-	if (y < 0 || y >= height || x < 0 || !grid[y] || !grid[y][x]
-		|| grid[y][x] == ' ')
+	int	row_len;
+
+	if (y < 0 || y >= height || !grid[y])
+		return (false);
+	row_len = (int)ft_strlen(grid[y]);
+	if (x < 0 || x >= row_len || grid[y][x] == ' ')
 		return (false);
 	if (grid[y][x] == '1' || grid[y][x] == 'V')
 		return (true);
 	grid[y][x] = 'V';
-	return (is_closed(grid, x + 1, y, height)
-		&& is_closed(grid, x - 1, y, height)
-		&& is_closed(grid, x, y + 1, height)
-		&& is_closed(grid, x, y - 1, height));
+	if (!is_closed(grid, x + 1, y, height)
+		|| !is_closed(grid, x - 1, y, height)
+		|| !is_closed(grid, x, y + 1, height)
+		|| !is_closed(grid, x, y - 1, height))
+		return (false);
+	return (true);
+}
+
+/* Helper to read file lines into a list */
+t_list	*read_map_to_list(int fd)
+{
+	t_list	*lst;
+	t_list	*new_node;
+	char	*line;
+
+	lst = NULL;
+	line = skip_to_map_start(fd);
+	while (line)
+	{
+		new_node = ft_lstnew(ft_strdup(line));
+		if (!new_node)
+		{
+			free(line);
+			ft_lstclear(&lst, free);
+			return (NULL);
+		}
+		ft_lstadd_back(&lst, new_node);
+		free(line);
+		line = get_next_line(fd);
+	}
+	return (lst);
 }

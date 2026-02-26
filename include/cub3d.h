@@ -47,19 +47,6 @@ typedef struct s_color
 	int	b;
 }	t_color;
 
-/* Map data including the 2D grid, dimensions, and player spawn */
-typedef struct s_map
-{
-	char	**grid;
-	int		width;
-	int		height;
-	int		p_x;
-	int		p_y;
-	t_player *player;
-	char	start_dir;
-}	t_map;
-
-
 typedef struct s_player
 {
 	// 현재 위치 (x, y)
@@ -79,6 +66,18 @@ typedef struct s_player
 	float	rot_speed;
 
 }	t_player;
+
+/* Map data including the 2D grid, dimensions, and player spawn */
+typedef struct s_map
+{
+	char	**grid;
+	int		width;
+	int		height;
+	int		p_x;
+	int		p_y;
+	t_player *player;
+	char	start_dir;
+}	t_map;
 
 typedef struct s_ray
 {
@@ -112,7 +111,7 @@ typedef struct s_ray
 /* Main engine controller holding all data and MiniLibX pointers */
 typedef struct s_game
 {
-	t_texture	texture;
+	t_texture	textures;
 	t_color		floor;
 	t_color		ceiling;
 	t_map		*map;
@@ -139,10 +138,11 @@ void	store_identifier(t_game *game, char *line);
 bool	all_identifiers_set(t_game *game);
 char	*skip_to_map_start(int fd);
 void	store_color(t_color *color, char *path);
-// void	convert_list_to_grid(t_list *lst, t_map *map);
+void	convert_list_to_grid(t_list *lst, t_map *map);
 char	**copy_grid(char **grid, int height);
 int		get_player_pos(t_map *map);
 bool	is_closed(char **grid, int x, int y, int height);
+t_list	*read_map_to_list(int fd);
 
 /* Utils */
 void	error_exit(t_game *game, char *msg);
@@ -151,13 +151,17 @@ void	free_tab(char **tab);
 int		flood_fill(char **copy, int x, int y, int max_y);
 bool	empty_line(char *line);
 
+/* Debug */
+void	print_textures(t_game *game);
+void	print_map(t_map *map);
+void	debug_validate_parsing(t_game *game);
+
 
 /* Excution*/
 void 	play_game(t_game *game, t_map *map);
 void	load_textures(t_game *game);
 
 /* free */
-void	free_game(t_game *game);
 void	error_exit(t_game *game, char *msg);
 void	free_textures(t_game *game);
 
