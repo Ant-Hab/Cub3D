@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: achowdhu <achowdhu@student.42.fr>          +#+  +:+       +#+         #
+#    By: musajid <musajid@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/22 18:09:48 by achowdhu          #+#    #+#              #
-#    Updated: 2025/07/20 18:02:30 by achowdhu         ###   ########.fr        #
+#    Updated: 2025/12/18 14:57:34 by musajid          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ NAME        := libft.a
 
 # Compiler and Flags
 CC          := cc
-CFLAGS      := -Wall -Wextra -Werror
+CFLAGS      := -Wall -Wextra -Werror -g
 AR          := ar rcs
 RM          := rm -f
 
@@ -35,10 +35,10 @@ INC         := -I$(INC_DIR)
 # ========================================
 
 CHAR_SRCS   := ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c \
-               ft_isprint.c ft_toupper.c ft_tolower.c
+               ft_isprint.c ft_isspace.c ft_toupper.c ft_tolower.c
 
 STR_SRCS    := ft_strlen.c ft_strlcpy.c ft_strlcat.c ft_strchr.c \
-               ft_strrchr.c ft_strncmp.c ft_strnstr.c ft_strdup.c \
+               ft_strrchr.c ft_strcmp.c ft_strncmp.c ft_strnstr.c ft_strdup.c \
                ft_substr.c ft_strjoin.c ft_strtrim.c ft_split.c \
                ft_strmapi.c ft_striteri.c ft_strrev.c ft_strtok.c
 
@@ -48,9 +48,13 @@ MEM_SRCS    := ft_memset.c ft_bzero.c ft_memcpy.c ft_memmove.c \
 FD_SRCS     := get_next_line.c ft_putchar_fd.c ft_putstr_fd.c \
                ft_putendl_fd.c ft_putnbr_fd.c ft_uputnbr_fd.c
 
+LIST_SRCS	:= ft_lstadd_back.c ft_lstadd_front.c ft_lstclear.c \
+			   ft_lstdelone.c ft_lstiter.c ft_lstlast.c ft_lstmap.c\
+			   ft_lstnew.c ft_lstsize.c
+
 CONV_SRCS   := ft_atoi.c ft_atoibool.c ft_itoa.c ft_printf.c
 
-SRCS        := $(CHAR_SRCS) $(STR_SRCS) $(MEM_SRCS) $(FD_SRCS) $(CONV_SRCS)
+SRCS        := $(CHAR_SRCS) $(STR_SRCS) $(MEM_SRCS) $(FD_SRCS) $(LIST_SRCS) $(CONV_SRCS)
 OBJS        := $(addprefix $(OBJ_DIR)/,$(SRCS:.c=.o))
 
 # ========================================

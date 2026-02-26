@@ -22,8 +22,9 @@
 # include <stdbool.h>
 # include <math.h>
 # include "../libft/include/libft.h"
-# include <MLX42/include/MLX42/MLX42.h>
+# include <../MLX42/include/MLX42/MLX42.h>
 
+/* Wall texture file paths (North, South, West, East) */
 typedef struct s_texture
 {
 	char			*no;
@@ -38,6 +39,7 @@ typedef struct s_texture
 
 }	t_texture;
 
+/* RGB color components for floor and ceiling rendering */
 typedef struct s_color
 {
 	int	r;
@@ -45,6 +47,7 @@ typedef struct s_color
 	int	b;
 }	t_color;
 
+/* Map data including the 2D grid, dimensions, and player spawn */
 typedef struct s_map
 {
 	char	**grid;
@@ -77,6 +80,30 @@ typedef struct s_player
 
 }	t_player;
 
+typedef struct s_ray
+{
+	// 현재 레이가 위치한 맵 칸
+	int		map_x;
+	int		map_y;
+	// 레이 방향 벡터
+	double	dir_x;
+	double	dir_y;
+	// DDA에서 레이가 한 칸 이동할 때 실제로 이동하는 거리 delta_distance
+	double	del_dist_x;
+	double	del_dist_y;
+	// 다음 격자선까지 거리
+	double	side_dist_x;
+	double	side_dist_y;
+	// 이동 방향 (-1 or 1)
+	int		step_x;
+	int		step_y;
+	// 벽 충돌 여부
+	int		hit_wall;
+	// 어떤 축의 벽인지 (0 = x, 1 = y)
+	int		hit_axis;
+}	t_ray;
+
+/* Main engine controller holding all data and MiniLibX pointers */
 typedef struct s_game
 {
 	t_texture	texture;
@@ -121,7 +148,7 @@ bool	empty_line(char *line);
 
 /* Excution*/
 void	game_loop(void *param);
-void play_game(t_game *game, t_map *map);
+void 	play_game(t_game *game, t_map *map);
 void	load_textures(t_game *game);
 
 /* free */

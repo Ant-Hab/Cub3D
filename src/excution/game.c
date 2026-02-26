@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 11:13:44 by jaeklee           #+#    #+#             */
-/*   Updated: 2026/02/24 12:13:45 by jaeklee          ###   ########.fr       */
+/*   Updated: 2026/02/26 13:37:45 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,4 +128,12 @@ void play_game(t_game *game, t_map *map)
 	init_game_state(game, map);
 	load_textures(game);
 	mlx_loop_hook(game->mlx, game_loop, game);
+}
+
+void play_game(t_game *game, t_map *map)
+{
+	init_graphics(game);
+	init_game_state(game, map);
+	load_textures(game);
+	MLX_LOOP(game_loop);
 }

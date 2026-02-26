@@ -6,11 +6,18 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 11:09:19 by jaeklee           #+#    #+#             */
-/*   Updated: 2026/02/24 12:13:30 by jaeklee          ###   ########.fr       */
+/*   Updated: 2026/02/26 13:37:59 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+void play_game(t_game *game, t_map *map)
+{
+	init_graphics(game);
+	init_game_state(game, map);
+	load_textures(game);
+}
 
 // MLX42 및 이미지 초기화만 담당
 void	init_graphics(t_game *game)
