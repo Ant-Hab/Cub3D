@@ -101,6 +101,12 @@ typedef struct s_ray
 	int		hit_wall;
 	// 어떤 축의 벽인지 (0 = x, 1 = y)
 	int		hit_axis;
+	char	*wall_texture;
+	double	distance;    // 플레이어~벽 직선 거리
+	int		pixel_height; // 화면에서 벽 높이
+	int		draw_top;     // 화면에서 그릴 시작점
+	int		draw_bottom;  // 화면에서 그릴 끝점
+	char	*texture_id;
 }	t_ray;
 
 /* Main engine controller holding all data and MiniLibX pointers */
@@ -147,7 +153,6 @@ bool	empty_line(char *line);
 
 
 /* Excution*/
-void	game_loop(void *param);
 void 	play_game(t_game *game, t_map *map);
 void	load_textures(t_game *game);
 
@@ -156,6 +161,10 @@ void	free_game(t_game *game);
 void	error_exit(t_game *game, char *msg);
 void	free_textures(t_game *game);
 
+/* utils*/
+int key_press(mlx_key_data_t keydata, void *param);
+int resize(int width, int height, void *param);
+void close_window(void *param);
 /* Debug */
 void	print_textures(t_game *game);
 void	print_map(t_map *map);

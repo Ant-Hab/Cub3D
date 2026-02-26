@@ -6,13 +6,13 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 11:13:44 by jaeklee           #+#    #+#             */
-/*   Updated: 2026/02/26 13:37:45 by jaeklee          ###   ########.fr       */
+/*   Updated: 2026/02/26 17:03:33 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static int	is_wall(t_game *game, float x, float y)
+int	is_wall(t_game *game, float x, float y)
 {
 	int	map_x = (int)x;
 	int	map_y = (int)y;
@@ -122,18 +122,15 @@ void	game_loop(void *param)
 	// raycast(game, game->map);
 }
 
-void play_game(t_game *game, t_map *map)
-{
-	init_graphics(game);
-	init_game_state(game, map);
-	load_textures(game);
-	mlx_loop_hook(game->mlx, game_loop, game);
-}
 
 void play_game(t_game *game, t_map *map)
 {
 	init_graphics(game);
 	init_game_state(game, map);
 	load_textures(game);
-	MLX_LOOP(game_loop);
+	mlx_loop_hook(game->mlx, game_loop, game);
+	mlx_key_hook(game->mlx, key_press, game);
+	mlx_resize_hook(game->mlx, resize, game);
+	mlx_close_hook(game->mlx, close_window, game);
+	mlx_loop(game->mlx);
 }
