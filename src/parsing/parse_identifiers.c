@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_identifiers.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: achowdhu <achowdhu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 17:57:42 by achowdhu          #+#    #+#             */
-/*   Updated: 2026/02/26 17:53:50 by jaeklee          ###   ########.fr       */
+/*   Updated: 2026/02/26 18:04:02 by achowdhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,18 +41,18 @@ static void	assign_texture(t_game *game, char **tk, char *path)
 	}
 	else if (!ft_strcmp(tk[0], "SO"))
 	{
-		free(game->textures.so);
-		game->textures.so = ft_strdup(path);
+		free(game->texture->so);
+		game->texture->so = ft_strdup(path);
 	}
 	else if (!ft_strcmp(tk[0], "WE"))
 	{
-		free(game->textures.we);
-		game->textures.we = ft_strdup(path);
+		free(game->texture->we);
+		game->texture->we = ft_strdup(path);
 	}
 	else if (!ft_strcmp(tk[0], "EA"))
 	{
-		free(game->textures.ea);
-		game->textures.ea = ft_strdup(path);
+		free(game->texture->ea);
+		game->texture->ea = ft_strdup(path);
 	}
 	else if (!ft_strcmp(tk[0], "F"))
 		store_color(&game->floor, path);
@@ -86,8 +86,8 @@ void	store_identifier(t_game *game, char *line)
 /* Check if all required identifiers are set */
 bool	all_identifiers_set(t_game *game)
 {
-	if (!game->textures.no || !game->textures.so
-		|| !game->textures.we || !game->textures.ea)
+	if (!game->texture->no || !game->texture->so
+		|| !game->texture->we || !game->texture->ea)
 		return (false);
 	if (game->floor.r == -1 || game->ceiling.r == -1)
 		return (false);
