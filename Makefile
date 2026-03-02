@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: achowdhu <achowdhu@student.hive.fi>        +#+  +:+       +#+         #
+#    By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/29 17:14:37 by achowdhu          #+#    #+#              #
-#    Updated: 2026/02/17 18:29:35 by achowdhu         ###   ########.fr        #
+#    Updated: 2026/03/02 15:15:46 by jaeklee          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,75 +14,117 @@
 #           Project Information
 # ========================================
 
-NAME        := cub3d
+# NAME        := cub3d
 
-# Compiler and Flags
-CC          := cc
-CFLAGS		:= -Wall -Wextra -Werror -g
+# # Compiler and Flags
+# CC          := cc
+# CFLAGS		:= -Wall -Wextra -Werror -g
 
-# Directories
-SRC_DIR     := src
-OBJ_DIR     := obj
-INC_DIR     := include
-LIBFT_DIR   := libft
+# # Directories
+# SRC_DIR     := src
+# OBJ_DIR     := obj
+# INC_DIR     := include
+# LIBFT_DIR   := libft
 
-# Source and Object Files
-SRCS        := $(shell find $(SRC_DIR) -name "*.c")
-OBJS        := $(addprefix $(OBJ_DIR)/,$(SRCS:$(SRC_DIR)/%.c=%.o))
+# # Source and Object Files
+# SRCS        := $(shell find $(SRC_DIR) -name "*.c")
+# OBJS        := $(addprefix $(OBJ_DIR)/,$(SRCS:$(SRC_DIR)/%.c=%.o))
 
-# Library
-LIBFT       := $(LIBFT_DIR)/libft.a
-READLINE    := -lreadline
+# # Library
+# LIBFT       := $(LIBFT_DIR)/libft.a
+# READLINE    := -lreadline
 
-# Includes
-INC         := -I$(INC_DIR) -I$(LIBFT_DIR)/include
+# # Includes
+# INC         := -I$(INC_DIR) -I$(LIBFT_DIR)/include
 
-# ========================================
-#               Colors
-# ========================================
+# # ========================================
+# #               Colors
+# # ========================================
 
-GREEN       := \033[0;32m
-YELLOW      := \033[0;33m
-RESET       := \033[0m
+# GREEN       := \033[0;32m
+# YELLOW      := \033[0;33m
+# RESET       := \033[0m
 
-# ========================================
-#               Rules
-# ========================================
+# # ========================================
+# #               Rules
+# # ========================================
+
+# all: $(NAME)
+
+# $(NAME): $(OBJS) $(LIBFT)
+# 	@echo "$(GREEN)[Linking]$(RESET) $(NAME)"
+# 	@$(CC) $(CFLAGS) $(INC) $(OBJS) $(LIBFT) $(READLINE) -o $(NAME)
+# 	@echo "$(GREEN)✔ $(NAME) built successfully!$(RESET)"
+
+# $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
+# 	@echo "$(GREEN)[Compiling]$(RESET) $<"
+# 	@mkdir -p $(dir $@)
+# 	@$(CC) $(CFLAGS) $(INC) -c $< -o $@
+
+# $(OBJ_DIR):
+# 	@mkdir -p $(OBJ_DIR)
+
+# $(LIBFT):
+# 	@echo "$(YELLOW)[Building]$(RESET) libft"
+# 	@$(MAKE) -C $(LIBFT_DIR)
+
+# clean:
+# 	@echo "$(YELLOW)[Cleaning]$(RESET) object files"
+# 	@rm -rf $(OBJ_DIR)
+# 	@$(MAKE) -C $(LIBFT_DIR) clean
+
+# fclean: clean
+# 	@echo "$(YELLOW)[Removing]$(RESET) $(NAME)"
+# 	@rm -f $(NAME)
+# 	@$(MAKE) -C $(LIBFT_DIR) fclean
+
+# re: fclean all
+
+# # ========================================
+# #              Special Rules
+# # ========================================
+
+# .PHONY: all clean fclean re
+# .SECONDARY:
+
+CC      := cc
+CFLAGS  := -Wall -Wextra -Werror -g
+SRC_DIR := src
+OBJ_DIR := obj
+INC_DIR := include
+LIBFT   := libft/libft.a
+
+SRCS    := $(shell find $(SRC_DIR) -name "*.c")
+OBJS    := $(addprefix $(OBJ_DIR)/,$(SRCS:$(SRC_DIR)/%.c=%.o))
+
+INC     := -I$(INC_DIR) -Ilibft/include -I/home/jaeklee/MLX42/include
+LDFLAGS := -L/home/jaeklee/MLX42/lib -lmlx42 -lglfw -ldl -lGL -lm -pthread
+
+NAME := cub3d
 
 all: $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT)
-	@echo "$(GREEN)[Linking]$(RESET) $(NAME)"
-	@$(CC) $(CFLAGS) $(INC) $(OBJS) $(LIBFT) $(READLINE) -o $(NAME)
-	@echo "$(GREEN)✔ $(NAME) built successfully!$(RESET)"
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(LDFLAGS) -o $(NAME)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
-	@echo "$(GREEN)[Compiling]$(RESET) $<"
-	@mkdir -p $(dir $@)
-	@$(CC) $(CFLAGS) $(INC) -c $< -o $@
+	mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) $(INC) -c $< -o $@
 
 $(OBJ_DIR):
-	@mkdir -p $(OBJ_DIR)
+	mkdir -p $(OBJ_DIR)
 
 $(LIBFT):
-	@echo "$(YELLOW)[Building]$(RESET) libft"
-	@$(MAKE) -C $(LIBFT_DIR)
+	$(MAKE) -C libft
 
 clean:
-	@echo "$(YELLOW)[Cleaning]$(RESET) object files"
-	@rm -rf $(OBJ_DIR)
-	@$(MAKE) -C $(LIBFT_DIR) clean
+	rm -rf $(OBJ_DIR)
+	$(MAKE) -C libft clean
 
 fclean: clean
-	@echo "$(YELLOW)[Removing]$(RESET) $(NAME)"
-	@rm -f $(NAME)
-	@$(MAKE) -C $(LIBFT_DIR) fclean
+	rm -f $(NAME)
+	$(MAKE) -C libft fclean
 
 re: fclean all
 
-# ========================================
-#              Special Rules
-# ========================================
-
 .PHONY: all clean fclean re
-.SECONDARY:

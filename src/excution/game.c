@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 11:13:44 by jaeklee           #+#    #+#             */
-/*   Updated: 2026/02/26 17:03:33 by jaeklee          ###   ########.fr       */
+/*   Updated: 2026/03/02 14:24:33 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,11 @@ void	movement(t_game *game)
 		rotate_player(p, -p->rot_speed);
 	if (game->rotate_right)
 		rotate_player(p, p->rot_speed);
+}
+
+static inline int rgba(int r, int g, int b, int a)
+{
+    return (r << 24 | g << 16 | b << 8 | a);
 }
 
 void	draw(t_game *game)

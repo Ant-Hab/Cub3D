@@ -22,7 +22,7 @@
 # include <stdbool.h>
 # include <math.h>
 # include "../libft/include/libft.h"
-# include <../MLX42/include/MLX42/MLX42.h>
+# include "../MLX42/include/MLX42/MLX42.h"
 
 /* Wall texture file paths (North, South, West, East) */
 typedef struct s_texture
@@ -139,6 +139,7 @@ void	store_identifier(t_game *game, char *line);
 bool	all_identifiers_set(t_game *game);
 char	*skip_to_map_start(int fd);
 void	store_color(t_color *color, char *path);
+
 void	convert_list_to_grid(t_list *lst, t_map *map);
 char	**copy_grid(char **grid, int height);
 int		get_player_pos(t_map *map);
@@ -161,16 +162,32 @@ void	debug_validate_parsing(t_game *game);
 /* Excution*/
 void 	play_game(t_game *game, t_map *map);
 void	load_textures(t_game *game);
+void	init_graphics(t_game *game);
+void	init_game_state(t_game *game, t_map *map);
+void	init_player_direction(t_player *p, char dir);
+/* raycast*/
+void raycast(t_game *game);
+void	draw_ray_column(t_ray *ray, t_game *game, int x);
+void calculate_wall( t_game *game, t_ray *ray);
+void	dda_and_wall(t_game *game, t_ray *ray);
+void	init_ray_move(t_game *game,t_ray *ray);
+void	init_ray(t_game *game, t_ray *ray, int i);
+int is_wall(t_game *game, float x, float y);
 
+/*mlx*/
+mlx_texture_t *texture_selection(t_ray *ray, t_map *map);
+int get_texture_column(t_ray *ray, mlx_texture_t *tex, t_player *player);
+int get_texture_row(int y, t_ray *ray, mlx_texture_t *tex);
+int get_texture_color(mlx_texture_t *tex, int x, int y);
 /* free */
 void	error_exit(t_game *game, char *msg);
 void	free_textures(t_game *game);
 
 /* utils*/
-int key_press(mlx_key_data_t keydata, void *param);
-int resize(int width, int height, void *param);
+void key_press(mlx_key_data_t keydata, void *param);
+void resize(int width, int height, void *param);
 void close_window(void *param);
-/* Debug */
+
 void	print_textures(t_game *game);
 void	print_map(t_map *map);
 void    debug_validate_parsing(t_game *game);
