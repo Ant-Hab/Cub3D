@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 14:35:24 by achowdhu          #+#    #+#             */
-/*   Updated: 2026/03/02 14:50:32 by jaeklee          ###   ########.fr       */
+/*   Updated: 2026/03/02 16:38:33 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,9 @@ static void	init_game_data(t_game *game)
 	game->floor.r = -1;
 	game->ceiling.r = -1;
 	game->map->width = 0;
+	printf("debug111\n");/// here is the segfault
 	game->map->height = 0;
+	
 }
 
 /* Initiates full parsing and map verification */
@@ -90,17 +92,20 @@ t_game	*parse(char *argv)
 	game = malloc(sizeof(t_game));
 	if (!game)
 		return (NULL);
+	printf("debug1\n");
 	init_game_data(game);
 	if (!open_identifiers(game, argv))
 	{
 		printf("Error\nIDs missing or invalid\n");
 		return (free_game(game), NULL);
 	}
+	printf("debug2\n");
 	if (!parse_map(game->map, argv))
 	{
 		printf("Error\nMap parsing failed\n");
 		return (free_game(game), NULL);
 	}
+	printf("debug3\n");
 	if (!validate_map(game->map))
 	{
 		printf("Error\nMap invalid\n");

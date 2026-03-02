@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 14:29:42 by achowdhu          #+#    #+#             */
-/*   Updated: 2026/03/02 16:12:19 by jaeklee          ###   ########.fr       */
+/*   Updated: 2026/03/02 16:34:17 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,10 @@ int	main(int argc, char **argv)
 		printf("Error\nInvalid extension\n");
 		return (1);
 	}
-
+	printf("debug0\n");
 	// parse()가 game_instance를 초기화하도록
 	parse(argv[1]);
-	printf("debug2\n");
+	printf("debug22\n");
 	// 게임 시작
 	play_game(&game_instance, game_instance.map);
 
