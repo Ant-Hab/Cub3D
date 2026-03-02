@@ -6,12 +6,11 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 11:25:59 by jaeklee           #+#    #+#             */
-/*   Updated: 2026/02/26 17:48:33 by jaeklee          ###   ########.fr       */
+/*   Updated: 2026/03/02 14:37:46 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
 
 
 void	init_ray(t_game *game, t_ray *ray, int i)
@@ -117,7 +116,7 @@ void	dda_and_wall(t_game *game, t_ray *ray)
 	}
 }
 
-void calculate_wall(t_ray *ray, t_game *game)
+void calculate_wall( t_game *game, t_ray *ray)
 {
 	if (ray->hit_axis == 0)
 		ray->distance = ray->side_dist_x - ray->del_dist_x;
@@ -152,18 +151,19 @@ void	draw_ray_column(t_ray *ray, t_game *game, int x)
 			(game->floor.r << 16) | (game->floor.g << 8) | game->floor.b);
 	}
 }
-void raycast(t_game *game, t_map *map)
+void raycast(t_game *game)
 {
-	int	i;
-	t_ray *ray;
-	
-	i = 0;
-	while (i < game->width)
-	{
-		init_ray(game,ray,i);
-		init_ray_move(game,ray);
-		dda_and_wall(game,ray);
-		calculate_wall(game,ray);
-		draw_ray_column(&ray, game, i);
-	}
+    int i;
+    t_ray ray; // 스택 변수 사용
+
+    i = 0;
+    while (i < game->width)
+    {
+        init_ray(game, &ray, i);
+        init_ray_move(game, &ray);
+        dda_and_wall(game, &ray);
+        calculate_wall( game, &ray);
+        draw_ray_column(&ray, game, i);
+        i++;
+    }
 }

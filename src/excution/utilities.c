@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 11:31:48 by jaeklee           #+#    #+#             */
-/*   Updated: 2026/02/26 17:00:42 by jaeklee          ###   ########.fr       */
+/*   Updated: 2026/03/02 14:20:32 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,63 +49,108 @@ void	error_exit(t_game *game, char *msg)
 	exit(EXIT_FAILURE);
 }
 
-int key_press(mlx_key_data_t keydata, void *param)
+void key_press(mlx_key_data_t keydata, void *param)
 {
-	t_game *game = (t_game *)param;
+    t_game *game = param;
 
-	// 키를 눌렀을 때
-	if (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT)
-	{
-		if (keydata.key == MLX_KEY_W)
-			game->forward = true;
-		else if (keydata.key == MLX_KEY_S)
-			game->back = true;
-		else if (keydata.key == MLX_KEY_A)
-			game->left = true;
-		else if (keydata.key == MLX_KEY_D)
-			game->right = true;
-		else if (keydata.key == MLX_KEY_LEFT)
-			game->rotate_left = true;
-		else if (keydata.key == MLX_KEY_RIGHT)
-			game->rotate_right = true;
-		else if (keydata.key == MLX_KEY_ESCAPE)
-			mlx_close_window(game->mlx); // ESC 누르면 창 종료
-	}
-	// 키를 뗐을 때
-	if (keydata.action == MLX_RELEASE)
-	{
-		if (keydata.key == MLX_KEY_W)
-			game->forward = false;
-		else if (keydata.key == MLX_KEY_S)
-			game->back = false;
-		else if (keydata.key == MLX_KEY_A)
-			game->left = false;
-		else if (keydata.key == MLX_KEY_D)
-			game->right = false;
-		else if (keydata.key == MLX_KEY_LEFT)
-			game->rotate_left = false;
-		else if (keydata.key == MLX_KEY_RIGHT)
-			game->rotate_right = false;
-	}
-
-	return (0);
+    if (keydata.action == MLX_PRESS)
+    {
+        if (keydata.key == MLX_KEY_W)
+            game->forward = true;
+        else if (keydata.key == MLX_KEY_S)
+            game->back = true;
+        else if (keydata.key == MLX_KEY_A)
+            game->left = true;
+        else if (keydata.key == MLX_KEY_D)
+            game->right = true;
+        else if (keydata.key == MLX_KEY_LEFT)
+            game->rotate_left = true;
+        else if (keydata.key == MLX_KEY_RIGHT)
+            game->rotate_right = true;
+        else if (keydata.key == MLX_KEY_ESCAPE)
+            close_window(game);
+    }
+    else if (keydata.action == MLX_RELEASE)
+    {
+        if (keydata.key == MLX_KEY_W)
+            game->forward = false;
+        else if (keydata.key == MLX_KEY_S)
+            game->back = false;
+        else if (keydata.key == MLX_KEY_A)
+            game->left = false;
+        else if (keydata.key == MLX_KEY_D)
+            game->right = false;
+        else if (keydata.key == MLX_KEY_LEFT)
+            game->rotate_left = false;
+        else if (keydata.key == MLX_KEY_RIGHT)
+            game->rotate_right = false;
+    }
 }
 
-int resize(int width, int height, void *param)
+void resize(int width, int height, void *param)
 {
-	t_game *game = (t_game *)param;
-
-	// 게임 화면 크기 업데이트
-	game->width = width;
-	game->height = height;
-
-	// 이미지 다시 생성
-	if (game->img)
-		mlx_delete_image(game->mlx, game->img);
-	game->img = mlx_new_image(game->mlx, width, height);
-
-	return (0);
+    t_game *game = param;
+    game->width = width;
+    game->height = height;
+    // 필요한 경우 이미지 다시 초기화
 }
+// int key_press(mlx_key_data_t keydata, void *param)
+// {
+// 	t_game *game = (t_game *)param;
+
+// 	// 키를 눌렀을 때
+// 	if (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT)
+// 	{
+// 		if (keydata.key == MLX_KEY_W)
+// 			game->forward = true;
+// 		else if (keydata.key == MLX_KEY_S)
+// 			game->back = true;
+// 		else if (keydata.key == MLX_KEY_A)
+// 			game->left = true;
+// 		else if (keydata.key == MLX_KEY_D)
+// 			game->right = true;
+// 		else if (keydata.key == MLX_KEY_LEFT)
+// 			game->rotate_left = true;
+// 		else if (keydata.key == MLX_KEY_RIGHT)
+// 			game->rotate_right = true;
+// 		else if (keydata.key == MLX_KEY_ESCAPE)
+// 			mlx_close_window(game->mlx); // ESC 누르면 창 종료
+// 	}
+// 	// 키를 뗐을 때
+// 	if (keydata.action == MLX_RELEASE)
+// 	{
+// 		if (keydata.key == MLX_KEY_W)
+// 			game->forward = false;
+// 		else if (keydata.key == MLX_KEY_S)
+// 			game->back = false;
+// 		else if (keydata.key == MLX_KEY_A)
+// 			game->left = false;
+// 		else if (keydata.key == MLX_KEY_D)
+// 			game->right = false;
+// 		else if (keydata.key == MLX_KEY_LEFT)
+// 			game->rotate_left = false;
+// 		else if (keydata.key == MLX_KEY_RIGHT)
+// 			game->rotate_right = false;
+// 	}
+
+// 	return (0);
+// }
+
+// int resize(int width, int height, void *param)
+// {
+// 	t_game *game = (t_game *)param;
+
+// 	// 게임 화면 크기 업데이트
+// 	game->width = width;
+// 	game->height = height;
+
+// 	// 이미지 다시 생성
+// 	if (game->img)
+// 		mlx_delete_image(game->mlx, game->img);
+// 	game->img = mlx_new_image(game->mlx, width, height);
+
+// 	return (0);
+// }
 void close_window(void *param)
 {
 	t_game *game = (t_game *)param;

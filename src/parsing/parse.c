@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achowdhu <achowdhu@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 14:35:24 by achowdhu          #+#    #+#             */
-/*   Updated: 2026/02/26 17:35:52 by achowdhu         ###   ########.fr       */
+/*   Updated: 2026/03/02 14:50:32 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,12 +96,12 @@ t_game	*parse(char *argv)
 		printf("Error\nIDs missing or invalid\n");
 		return (free_game(game), NULL);
 	}
-	if (!parse_map(&game->map, argv))
+	if (!parse_map(game->map, argv))
 	{
 		printf("Error\nMap parsing failed\n");
 		return (free_game(game), NULL);
 	}
-	if (!validate_map(&game->map))
+	if (!validate_map(game->map))
 	{
 		printf("Error\nMap invalid\n");
 		return (free_game(game), NULL);

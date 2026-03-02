@@ -3,30 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achowdhu <achowdhu@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 14:35:45 by achowdhu          #+#    #+#             */
-/*   Updated: 2026/02/19 15:35:56 by achowdhu         ###   ########.fr       */
+/*   Updated: 2026/03/02 14:48:33 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
 /* Prints error message, frees allocated game memory, and exits program */
-void	error_exit(t_game *game, char *msg)
-{
-	write(2, "Error\n", 6);
-	if (msg)
-	{
-		write(2, msg, ft_strlen(msg));
-		write(2, "\n", 1);
-	}
-	else
-		perror("System Error");
-	if (game)
-		free_game(game);
-	exit(1);
-}
+// void	error_exit(t_game *game, char *msg)
+// {
+// 	write(2, "Error\n", 6);
+// 	if (msg)
+// 	{
+// 		write(2, msg, ft_strlen(msg));
+// 		write(2, "\n", 1);
+// 	}
+// 	else
+// 		perror("System Error");
+// 	if (game)
+// 		free_game(game);
+// 	exit(1);
+// }
 
 /* Frees a NULL-terminated array of strings */
 void	free_tab(char **tab)
@@ -45,22 +45,22 @@ void	free_tab(char **tab)
 }
 
 /* Frees all dynamically allocated members inside game struct */
-void	free_game(t_game *game)
-{
-	if (!game)
-		return ;
-	if (game->textures.no)
-		free(game->textures.no);
-	if (game->textures.so)
-		free(game->textures.so);
-	if (game->textures.we)
-		free(game->textures.we);
-	if (game->textures.ea)
-		free(game->textures.ea);
-	if (game->map.grid)
-		free_tab(game->map.grid);
-	free(game);
-}
+// void	free_game(t_game *game)
+// {
+// 	if (!game)
+// 		return ;
+// 	if (game->textures.no)
+// 		free(game->textures.no);
+// 	if (game->textures.so)
+// 		free(game->textures.so);
+// 	if (game->textures.we)
+// 		free(game->textures.we);
+// 	if (game->textures.ea)
+// 		free(game->textures.ea);
+// 	if (game->map.grid)
+// 		free_tab(game->map.grid);
+// 	free(game);
+// }
 
 /* Performs recursive flood fill to verify map is fully enclosed */
 int	flood_fill(char **copy, int x, int y, int max_y)
