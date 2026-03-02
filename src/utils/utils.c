@@ -3,30 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: achowdhu <achowdhu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 14:35:45 by achowdhu          #+#    #+#             */
-/*   Updated: 2026/03/02 14:48:33 by jaeklee          ###   ########.fr       */
+/*   Updated: 2026/03/02 16:13:21 by achowdhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
 /* Prints error message, frees allocated game memory, and exits program */
-// void	error_exit(t_game *game, char *msg)
-// {
-// 	write(2, "Error\n", 6);
-// 	if (msg)
-// 	{
-// 		write(2, msg, ft_strlen(msg));
-// 		write(2, "\n", 1);
-// 	}
-// 	else
-// 		perror("System Error");
-// 	if (game)
-// 		free_game(game);
-// 	exit(1);
-// }
+void	error_exit(t_game *game, char *msg)
+{
+	printf("Error\n");
+	if (msg)
+		printf("%s\n", msg);
+	else
+		perror("System Error");
+	if (game)
+		free_game(game);
+	exit(1);
+}
 
 /* Frees a NULL-terminated array of strings */
 void	free_tab(char **tab)

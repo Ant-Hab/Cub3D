@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utilities.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: achowdhu <achowdhu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 11:31:48 by jaeklee           #+#    #+#             */
-/*   Updated: 2026/03/02 14:20:32 by jaeklee          ###   ########.fr       */
+/*   Updated: 2026/03/02 16:14:49 by achowdhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,18 +35,6 @@ void	free_game(t_game *game)
 	// MLX 종료 (제일 마지막)
 	if (game->mlx)
 		mlx_terminate(game->mlx);
-}
-
-void	error_exit(t_game *game, char *msg)
-{
-	if (msg)
-		fprintf(stderr, "Error: %s\n", msg);
-
-	// 게임 관련 메모리 해제
-	if (game)
-		free_game(game);
-
-	exit(EXIT_FAILURE);
 }
 
 void key_press(mlx_key_data_t keydata, void *param)
