@@ -6,7 +6,7 @@
 #    By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/29 17:14:37 by achowdhu          #+#    #+#              #
-#    Updated: 2026/03/02 15:34:48 by jaeklee          ###   ########.fr        #
+#    Updated: 2026/03/02 15:53:04 by jaeklee          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -105,8 +105,9 @@ LIBFT_DIR   := libft
 MLX_DIR     := MLX42
 
 # Source and Object Files
+# Source and Object Files
 SRCS        := $(shell find $(SRC_DIR) -name "*.c")
-OBJS        := $(addprefix $(OBJ_DIR)/,$(SRCS:$(SRC_DIR)/%.c=%.o))
+OBJS        := $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
 # Libraries
 LIBFT       := $(LIBFT_DIR)/libft.a
@@ -125,13 +126,13 @@ RESET       := \033[0m
 #               Rules
 # ========================================
 
-all: $(MLX_LIB) $(NAME)
+all: $(NAME)
 
-$(NAME): $(OBJS) $(LIBFT)
+$(NAME): $(OBJS) $(LIBFT) $(MLX_DIR)/libmlx42.a
 	@echo "$(GREEN)[Linking]$(RESET) $(NAME)"
-	@$(CC) $(CFLAGS) $(INC) $(OBJS) $(LIBFT) $(MLX_LIB) -o $(NAME)
+	@$(CC) $(CFLAGS) $(INC) $(OBJS) $(LIBFT) $(MLX_DIR)/libmlx42.a -lglfw -ldl -lm -o $(NAME)
 	@echo "$(GREEN)✔ $(NAME) built successfully!$(RESET)"
-
+	
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
 	@echo "$(GREEN)[Compiling]$(RESET) $<"
 	@mkdir -p $(dir $@)

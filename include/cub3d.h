@@ -175,7 +175,7 @@ void	init_ray(t_game *game, t_ray *ray, int i);
 int is_wall(t_game *game, float x, float y);
 
 /*mlx*/
-mlx_texture_t *texture_selection(t_ray *ray, t_map *map);
+mlx_texture_t *texture_selection(t_ray *ray, t_game *game);
 int get_texture_column(t_ray *ray, mlx_texture_t *tex, t_player *player);
 int get_texture_row(int y, t_ray *ray, mlx_texture_t *tex);
 int get_texture_color(mlx_texture_t *tex, int x, int y);

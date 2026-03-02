@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 14:29:42 by achowdhu          #+#    #+#             */
-/*   Updated: 2026/03/02 15:13:44 by jaeklee          ###   ########.fr       */
+/*   Updated: 2026/03/02 16:12:19 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ int	main(int argc, char **argv)
 		write(2, "Error\nUsage: ./cub3D <map.cub>\n", 31);
 		return (1);
 	}
+
 	len = ft_strlen(argv[1]);
 	if (len < 4 || ft_strncmp(argv[1] + len - 4, ".cub", 4) != 0)
 	{
@@ -57,7 +58,7 @@ int	main(int argc, char **argv)
 
 	// parse()가 game_instance를 초기화하도록
 	parse(argv[1]);
-
+	printf("debug2\n");
 	// 게임 시작
 	play_game(&game_instance, game_instance.map);
 
