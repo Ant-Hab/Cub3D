@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 11:25:59 by jaeklee           #+#    #+#             */
-/*   Updated: 2026/03/02 14:37:46 by jaeklee          ###   ########.fr       */
+/*   Updated: 2026/03/02 16:31:31 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ void calculate_wall( t_game *game, t_ray *ray)
 }
 void	draw_ray_column(t_ray *ray, t_game *game, int x)
 {
-	mlx_texture_t *tex = texture_selection(ray, game->map);
+	mlx_texture_t *tex = texture_selection(ray, game);
 	int tex_x = get_texture_column(ray, tex, game->player);
 	int y;
 
