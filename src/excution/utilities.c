@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 11:31:48 by jaeklee           #+#    #+#             */
-/*   Updated: 2026/03/03 10:49:53 by jaeklee          ###   ########.fr       */
+/*   Updated: 2026/03/03 12:22:11 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void resize(int width, int height, void *param)
 		mlx_delete_image(game->mlx, game->img);
 	game->img = mlx_new_image(game->mlx, width, height);
 	mlx_image_to_window(game->mlx, game->img, 0, 0);
-	draw(game);
+	// draw(game);
 	raycast(game);
 }
 
