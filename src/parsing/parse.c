@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achowdhu <achowdhu@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 14:35:24 by achowdhu          #+#    #+#             */
-/*   Updated: 2026/03/03 14:05:38 by achowdhu         ###   ########.fr       */
+/*   Updated: 2026/03/03 15:02:41 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,6 @@ static void	init_game_data(t_game *game)
 /* Initiates full parsing and map verification */
 bool parse(t_game *game, char *argv)
 {
-    printf("debug1\n");
     init_game_data(game);
     if (!open_identifiers(game, argv))
     {
