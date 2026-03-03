@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: achowdhu <achowdhu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 14:29:42 by achowdhu          #+#    #+#             */
-/*   Updated: 2026/03/03 10:22:19 by jaeklee          ###   ########.fr       */
+/*   Updated: 2026/03/03 14:09:44 by achowdhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,32 +38,40 @@
 // 	}
 // 	return (0);
 // }
-int	main(int argc, char **argv)
+int main(int argc, char **argv)
 {
-	t_game	game;
-	int		len;
+    t_game  game;
+    int     len;
 
-	if (argc != 2)
-	{
-		write(2, "Error\nUsage: ./cub3D <map.cub>\n", 31);
-		return (1);
-	}
+    if (argc != 2)
+    {
+        write(2, "Error\nUsage: ./cub3D <map.cub>\n", 31);
+        return (1);
+    }
+    len = ft_strlen(argv[1]);
+    if (len < 4 || ft_strncmp(argv[1] + len - 4, ".cub", 4) != 0)
+    {
+        printf("Error\nInvalid extension\n");
+        return (1);
+    }
 
-	len = ft_strlen(argv[1]);
-	if (len < 4 || ft_strncmp(argv[1] + len - 4, ".cub", 4) != 0)
-	{
-		printf("Error\nInvalid extension\n");
-		return (1);
-	}
-	printf("debug0\n");
-	// parse()가 game_instance를 초기화하도록
-	parse(argv[1]);
-	printf("debug22\n");
-	// 게임 시작
-	play_game(&game, game.map);
+    printf("debug0\n");
+    // Pass &game so parse fills the struct in main
+    if (!parse(&game, argv[1]))
+        return (1);
+    printf("debug5\n");
+    
+    // /* Debug Parsing*/
+    // print_textures(&game);
+    // print_map(&game);
+    // debug_validate_parsing(&game);
 
-	// 게임 종료 후 정리
-	free_game(&game);
+    // 게임 시작
+    play_game(&game, game.map);
+    printf("debug6\n");
 
-	return (0);
+    // 게임 종료 후 정리
+    free_game(&game);
+
+    return (0);
 }

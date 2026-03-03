@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: achowdhu <achowdhu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 14:35:45 by achowdhu          #+#    #+#             */
-/*   Updated: 2026/03/03 10:44:18 by jaeklee          ###   ########.fr       */
+/*   Updated: 2026/03/03 12:43:28 by achowdhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,21 @@
 void	free_game(t_game *game)
 {
 	if (!game)
-		return;
+		return ;
 	free_textures(game);
-	if (game->img) // img del
-		mlx_delete_image(game->mlx, game->img);
-
-	if (game->map) // free map
+	if (game->texture)
+		free(game->texture);
+	if (game->player)
+		free(game->player);
+	if (game->map)
 	{
 		if (game->map->grid)
 			free_tab(game->map->grid);
 		free(game->map);
 	}
-	if (game->mlx) // close mlx
+	if (game->mlx && game->img)
+		mlx_delete_image(game->mlx, game->img);
+	if (game->mlx)
 		mlx_terminate(game->mlx);
 }
 
@@ -62,24 +65,6 @@ void	free_tab(char **tab)
 	}
 	free(tab);
 }
-
-/* Frees all dynamically allocated members inside game struct */
-// void	free_game(t_game *game)
-// {
-// 	if (!game)
-// 		return ;
-// 	if (game->textures.no)
-// 		free(game->textures.no);
-// 	if (game->textures.so)
-// 		free(game->textures.so);
-// 	if (game->textures.we)
-// 		free(game->textures.we);
-// 	if (game->textures.ea)
-// 		free(game->textures.ea);
-// 	if (game->map.grid)
-// 		free_tab(game->map.grid);
-// 	free(game);
-// }
 
 /* Performs recursive flood fill to verify map is fully enclosed */
 int	flood_fill(char **copy, int x, int y, int max_y)

@@ -78,8 +78,6 @@ typedef struct s_map
 	char	start_dir;
 }	t_map;
 
-
-
 typedef struct s_ray
 {
 	// 현재 레이가 위치한 맵 칸
@@ -133,7 +131,7 @@ typedef struct s_game
 
 
 /* Parsing */
-t_game	*parse(char *argv);
+bool 	parse(t_game *game, char *argv);
 bool	is_identifier_line(char *line);
 void	store_identifier(t_game *game, char *line);
 bool	all_identifiers_set(t_game *game);
@@ -153,11 +151,10 @@ void	free_tab(char **tab);
 int		flood_fill(char **copy, int x, int y, int max_y);
 bool	empty_line(char *line);
 
-/* Debug */
-void	print_textures(t_game *game);
-void	print_map(t_map *map);
-void	debug_validate_parsing(t_game *game);
-
+// /* Debug */
+// void	print_textures(t_game *game);
+// void	print_map(t_game *game);
+// void	debug_validate_parsing(t_game *game);
 
 /* Excution*/
 void 	play_game(t_game *game, t_map *map);
@@ -187,10 +184,6 @@ void	free_textures(t_game *game);
 void key_press(mlx_key_data_t keydata, void *param);
 void resize(int width, int height, void *param);
 void close_window(void *param);
-
-void	print_textures(t_game *game);
-void	print_map(t_map *map);
-void    debug_validate_parsing(t_game *game);
 
 #endif
 

@@ -6,7 +6,7 @@
 /*   By: achowdhu <achowdhu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 17:57:42 by achowdhu          #+#    #+#             */
-/*   Updated: 2026/02/26 18:04:02 by achowdhu         ###   ########.fr       */
+/*   Updated: 2026/03/03 12:41:03 by achowdhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ void	store_identifier(t_game *game, char *line)
 /* Check if all required identifiers are set */
 bool	all_identifiers_set(t_game *game)
 {
+	if (!game || !game->texture)
+		return (false);
 	if (!game->texture->no || !game->texture->so
 		|| !game->texture->we || !game->texture->ea)
 		return (false);
