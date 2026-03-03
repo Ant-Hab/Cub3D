@@ -6,18 +6,11 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 11:09:19 by jaeklee           #+#    #+#             */
-/*   Updated: 2026/03/02 14:48:17 by jaeklee          ###   ########.fr       */
+/*   Updated: 2026/03/03 10:41:58 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-// void play_game(t_game *game, t_map *map)
-// {
-// 	init_graphics(game);
-// 	init_game_state(game, map);
-// 	load_textures(game);
-// }
 
 // MLX42 및 이미지 초기화만 담당
 void	init_graphics(t_game *game)
@@ -55,10 +48,7 @@ void	init_game_state(t_game *game, t_map *map)
 	game->player->move_speed = 0.1f;
 	game->player->rot_speed = 0.05f;
 
-	// 방향 설정
 	init_player_direction(game->player, map->start_dir);
-
-	// 키 상태 초기화
 	game->forward = false;
 	game->back = false;
 	game->left = false;

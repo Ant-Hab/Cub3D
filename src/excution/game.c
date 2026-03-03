@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 11:13:44 by jaeklee           #+#    #+#             */
-/*   Updated: 2026/03/02 14:24:33 by jaeklee          ###   ########.fr       */
+/*   Updated: 2026/03/03 10:38:31 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,8 +123,8 @@ void	game_loop(void *param)
 
 	game = (t_game *)param;
 	movement(game);
+	raycast(game);
 	draw(game);
-	// raycast(game, game->map);
 }
 
 
@@ -133,9 +133,9 @@ void play_game(t_game *game, t_map *map)
 	init_graphics(game);
 	init_game_state(game, map);
 	load_textures(game);
-	mlx_loop_hook(game->mlx, game_loop, game);
-	mlx_key_hook(game->mlx, key_press, game);
 	mlx_resize_hook(game->mlx, resize, game);
+	mlx_key_hook(game->mlx, key_press, game);
 	mlx_close_hook(game->mlx, close_window, game);
+	mlx_loop_hook(game->mlx, game_loop, game);
 	mlx_loop(game->mlx);
 }

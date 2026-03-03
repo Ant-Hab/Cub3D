@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 14:29:42 by achowdhu          #+#    #+#             */
-/*   Updated: 2026/03/02 16:34:17 by jaeklee          ###   ########.fr       */
+/*   Updated: 2026/03/03 10:22:19 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@
 // }
 int	main(int argc, char **argv)
 {
-	t_game	game_instance;
+	t_game	game;
 	int		len;
 
 	if (argc != 2)
@@ -60,10 +60,10 @@ int	main(int argc, char **argv)
 	parse(argv[1]);
 	printf("debug22\n");
 	// 게임 시작
-	play_game(&game_instance, game_instance.map);
+	play_game(&game, game.map);
 
 	// 게임 종료 후 정리
-	free_game(&game_instance);
+	free_game(&game);
 
 	return (0);
 }

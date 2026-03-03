@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 10:49:52 by jaeklee           #+#    #+#             */
-/*   Updated: 2026/03/02 16:07:48 by jaeklee          ###   ########.fr       */
+/*   Updated: 2026/03/03 10:42:23 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,6 @@ void	free_textures(t_game *game)
 		mlx_delete_texture(game->texture->we_tex);
 	if (game->texture->ea_tex)
 		mlx_delete_texture(game->texture->ea_tex);
-
-	// Free the path strings
 	if (game->texture->no)
 		free(game->texture->no);
 	if (game->texture->so)

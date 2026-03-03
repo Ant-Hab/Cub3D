@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 14:35:45 by achowdhu          #+#    #+#             */
-/*   Updated: 2026/03/02 16:40:21 by jaeklee          ###   ########.fr       */
+/*   Updated: 2026/03/03 10:44:18 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,26 +18,20 @@ void	free_game(t_game *game)
 {
 	if (!game)
 		return;
-
-	// 텍스처 먼저 해제 (mlx 필요)
 	free_textures(game);
-
-	// 이미지 해제
-	if (game->img)
+	if (game->img) // img del
 		mlx_delete_image(game->mlx, game->img);
 
-	// map 해제
-	if (game->map)
+	if (game->map) // free map
 	{
 		if (game->map->grid)
 			free_tab(game->map->grid);
 		free(game->map);
 	}
-
-	// MLX 종료 (제일 마지막)
-	if (game->mlx)
+	if (game->mlx) // close mlx
 		mlx_terminate(game->mlx);
 }
+
 void	error_exit(t_game *game, char *msg)
 {
 	write(2, "Error\n", 6);

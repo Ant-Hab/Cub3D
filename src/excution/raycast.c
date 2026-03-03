@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 11:25:59 by jaeklee           #+#    #+#             */
-/*   Updated: 2026/03/02 16:31:31 by jaeklee          ###   ########.fr       */
+/*   Updated: 2026/03/03 10:57:27 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,38 +17,31 @@ void	init_ray(t_game *game, t_ray *ray, int i)
 {
 	double	camera_x;
 
-	camera_x = 2.0 * i / (double)game->width - 1.0;
+	camera_x = 2.0 * i / (double)game->width - 1.0; 
 
-	// 레이 방향 벡터 계산
 	ray->dir_x = game->player->dir_x
 		+ game->player->plane_x * camera_x;
 	ray->dir_y = game->player->dir_y
 		+ game->player->plane_y * camera_x;
-
-	// 현재 플레이어가 위치한 맵 칸
-	ray->map_x = (int)game->player->x;
+	ray->map_x = (int)game->player->x; // the location of player in the map
 	ray->map_y = (int)game->player->y;
-
-	// 한 칸 이동 시 증가 거리 계산
 	if (ray->dir_x == 0)
-		ray->del_dist_x = 1e30;
+		ray->del_dist_x = 1e30; //the distance required to move one grid cell
 	else
-		ray->del_dist_x = fabs(1 / ray->dir_x);
+		ray->del_dist_x = fabs(1 / ray->dir_x); // delta_distance
 
 	if (ray->dir_y == 0)
 		ray->del_dist_y = 1e30;
 	else
 		ray->del_dist_y = fabs(1 / ray->dir_y);
 
-	// 초기화
 	ray->hit_wall = 0;
 	ray->hit_axis = 0;
 }
 
 void	init_ray_move(t_game *game,t_ray *ray)
 {
-	// X 방향
-	if (ray->dir_x < 0)
+	if (ray->dir_x < 0) // x
 	{
 		ray->step_x = -1;
 		ray->side_dist_x = (game->player->x - ray->map_x)
@@ -60,8 +53,7 @@ void	init_ray_move(t_game *game,t_ray *ray)
 		ray->side_dist_x = (ray->map_x + 1.0 - game->player->x)
 			* ray->del_dist_x;
 	}
-	// Y 방향
-	if (ray->dir_y < 0)
+	if (ray->dir_y < 0) // y
 	{
 		ray->step_y = -1;
 		ray->side_dist_y = (game->player->y - ray->map_y)
@@ -79,7 +71,6 @@ void	dda_and_wall(t_game *game, t_ray *ray)
 {
 	while (ray->hit_wall == 0)
 	{
-		// 1️⃣ X축과 Y축 중 더 가까운 격자선 선택
 		if (ray->side_dist_x < ray->side_dist_y)
 		{
 			ray->side_dist_x += ray->del_dist_x; // 다음 X선까지 거리 증가
@@ -92,12 +83,9 @@ void	dda_and_wall(t_game *game, t_ray *ray)
 			ray->map_y += ray->step_y;           // Y 방향 이동
 			ray->hit_axis = 1;                   // 가로벽 가능
 		}
-		// 2️⃣ 맵 범위 체크 + 벽 체크
 		if (is_wall(game, ray->map_x, ray->map_y))
 		{
 			ray->hit_wall = 1;
-
-			// 3️⃣ 텍스처 결정 (hit_axis + step 방향)
 			if (ray->hit_axis == 0)  // 세로벽
 			{
 				if (ray->step_x > 0)
@@ -154,8 +142,8 @@ void	draw_ray_column(t_ray *ray, t_game *game, int x)
 void raycast(t_game *game)
 {
     int i;
-    t_ray ray; // 스택 변수 사용
-
+    t_ray ray;
+	
     i = 0;
     while (i < game->width)
     {
