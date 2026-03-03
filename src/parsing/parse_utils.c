@@ -6,7 +6,7 @@
 /*   By: achowdhu <achowdhu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/26 17:27:50 by achowdhu          #+#    #+#             */
-/*   Updated: 2026/02/26 18:14:48 by achowdhu         ###   ########.fr       */
+/*   Updated: 2026/03/03 17:57:12 by achowdhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,19 @@ void	store_color(t_color *color, char *path)
 void	convert_list_to_grid(t_list *lst, t_map *map)
 {
 	int		i;
+	int		len;
 	t_list	*curr;
 
 	map->height = ft_lstsize(lst);
+	map->width = 0;
+	curr = lst;
+	while (curr)
+	{
+		len = ft_strlen((char *)curr->content);
+		if (len > map->width)
+			map->width = len;
+		curr = curr->next;
+	}
 	map->grid = ft_calloc(map->height + 1, sizeof(char *));
 	if (!map->grid)
 		return ;
@@ -43,16 +53,7 @@ void	convert_list_to_grid(t_list *lst, t_map *map)
 	i = 0;
 	while (curr)
 	{
-		map->grid[i] = ft_strdup(curr->content);
-		if (!map->grid[i])
-		{
-			free_tab(map->grid);
-			map->grid = NULL;
-			return ;
-		}
-		if ((int)ft_strlen(map->grid[i]) > map->width)
-			map->width = ft_strlen(map->grid[i]);
-		i++;
+		map->grid[i++] = ft_strdup((char *)curr->content);
 		curr = curr->next;
 	}
 }
@@ -76,10 +77,7 @@ char	**copy_grid(char **grid, int height)
 	{
 		copy[i] = ft_strdup(grid[i]);
 		if (!copy[i])
-		{
-			free_tab(copy);
-			return (NULL);
-		}
+			return (free_tab(copy), NULL);
 		i++;
 	}
 	return (copy);
@@ -92,18 +90,21 @@ int	get_player_pos(t_map *map)
 	int	y;
 	int	p_found;
 
-	y = -1;
 	p_found = 0;
-	while (map->grid[++y])
+	y = -1;
+	while (map->grid && map->grid[++y])
 	{
 		x = -1;
 		while (map->grid[y][++x])
 		{
 			if (ft_strchr("NSEW", map->grid[y][x]))
 			{
-				p_found++;
 				map->p_x = x;
 				map->p_y = y;
+				map->start_dir = map->grid[y][x];
+				p_found++;
+				if (p_found > 1)
+					return (p_found);
 			}
 		}
 	}
@@ -113,45 +114,22 @@ int	get_player_pos(t_map *map)
 /* Recursively verifies that the player is fully enclosed by walls */
 bool	is_closed(char **grid, int x, int y, int height)
 {
-	int	row_len;
-
-	if (y < 0 || y >= height || !grid[y])
+	if (y < 0 || y >= height || x < 0 || !grid[y])
 		return (false);
-	row_len = (int)ft_strlen(grid[y]);
-	if (x < 0 || x >= row_len || grid[y][x] == ' ')
+	if (x >= (int)ft_strlen(grid[y]))
+		return (false);
+	if (grid[y][x] == ' ')
 		return (false);
 	if (grid[y][x] == '1' || grid[y][x] == 'V')
 		return (true);
 	grid[y][x] = 'V';
-	if (!is_closed(grid, x + 1, y, height)
-		|| !is_closed(grid, x - 1, y, height)
-		|| !is_closed(grid, x, y + 1, height)
-		|| !is_closed(grid, x, y - 1, height))
+	if (!is_closed(grid, x + 1, y, height))
+		return (false);
+	if (!is_closed(grid, x - 1, y, height))
+		return (false);
+	if (!is_closed(grid, x, y + 1, height))
+		return (false);
+	if (!is_closed(grid, x, y - 1, height))
 		return (false);
 	return (true);
-}
-
-/* Helper to read file lines into a list */
-t_list	*read_map_to_list(int fd)
-{
-	t_list	*lst;
-	t_list	*new_node;
-	char	*line;
-
-	lst = NULL;
-	line = skip_to_map_start(fd);
-	while (line)
-	{
-		new_node = ft_lstnew(ft_strdup(line));
-		if (!new_node)
-		{
-			free(line);
-			ft_lstclear(&lst, free);
-			return (NULL);
-		}
-		ft_lstadd_back(&lst, new_node);
-		free(line);
-		line = get_next_line(fd);
-	}
-	return (lst);
 }

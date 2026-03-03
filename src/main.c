@@ -6,7 +6,7 @@
 /*   By: achowdhu <achowdhu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 14:29:42 by achowdhu          #+#    #+#             */
-/*   Updated: 2026/03/03 14:09:44 by achowdhu         ###   ########.fr       */
+/*   Updated: 2026/03/03 18:05:43 by achowdhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,10 @@ int main(int argc, char **argv)
     if (!parse(&game, argv[1]))
         return (1);
     printf("debug5\n");
-    
-    // /* Debug Parsing*/
-    // print_textures(&game);
-    // print_map(&game);
-    // debug_validate_parsing(&game);
+    /* Debug Parsing*/
+    print_textures(&game);
+    print_map(&game);
+    debug_validate_parsing(&game);
 
     // 게임 시작
     play_game(&game, game.map);

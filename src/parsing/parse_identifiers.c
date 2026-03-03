@@ -6,7 +6,7 @@
 /*   By: achowdhu <achowdhu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 17:57:42 by achowdhu          #+#    #+#             */
-/*   Updated: 2026/03/03 12:41:03 by achowdhu         ###   ########.fr       */
+/*   Updated: 2026/03/03 17:57:23 by achowdhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,23 @@
 /* Check if line is a texture or color identifier */
 bool	is_identifier_line(char *line)
 {
-	char	*tmp;
-	bool	res;
-
-	tmp = ft_strtrim(line, " \t\n");
-	if (!tmp)
+	if (!line)
 		return (false);
-	res = (!ft_strncmp(tmp, "NO ", 3)
-			|| !ft_strncmp(tmp, "SO ", 3)
-			|| !ft_strncmp(tmp, "WE ", 3)
-			|| !ft_strncmp(tmp, "EA ", 3)
-			|| !ft_strncmp(tmp, "F ", 2)
-			|| !ft_strncmp(tmp, "C ", 2));
-	free(tmp);
-	return (res);
+	while (*line == ' ' || *line == '\t')
+		line++;
+	if (!ft_strncmp(line, "NO", 2) && (line[2] == ' ' || line[2] == '\t'))
+		return (true);
+	if (!ft_strncmp(line, "SO", 2) && (line[2] == ' ' || line[2] == '\t'))
+		return (true);
+	if (!ft_strncmp(line, "WE", 2) && (line[2] == ' ' || line[2] == '\t'))
+		return (true);
+	if (!ft_strncmp(line, "EA", 2) && (line[2] == ' ' || line[2] == '\t'))
+		return (true);
+	if (!ft_strncmp(line, "F", 1) && (line[1] == ' ' || line[1] == '\t'))
+		return (true);
+	if (!ft_strncmp(line, "C", 1) && (line[1] == ' ' || line[1] == '\t'))
+		return (true);
+	return (false);
 }
 
 /* Matches identifier to the correct struct member and duplicates path */
@@ -70,11 +73,8 @@ void	store_identifier(t_game *game, char *line)
 	if (!tk)
 		return ;
 	if (!tk[0] || !tk[1])
-	{
-		free_tab(tk);
-		return ;
-	}
-	path = ft_strtrim(tk[1], " \n\t");
+		return (free_tab(tk));
+	path = ft_strtrim(tk[1], " \n\t\r");
 	if (path)
 	{
 		assign_texture(game, tk, path);
@@ -86,8 +86,6 @@ void	store_identifier(t_game *game, char *line)
 /* Check if all required identifiers are set */
 bool	all_identifiers_set(t_game *game)
 {
-	if (!game || !game->texture)
-		return (false);
 	if (!game->texture->no || !game->texture->so
 		|| !game->texture->we || !game->texture->ea)
 		return (false);
@@ -96,19 +94,19 @@ bool	all_identifiers_set(t_game *game)
 	return (true);
 }
 
-/* Skip identifier lines and return first map line */
+/* Skips any empty space between IDs and the map grid */
 char	*skip_to_map_start(int fd)
 {
 	char	*line;
 
-	line = get_next_line(fd);
-	while (line)
+	while (1)
 	{
-		if (!empty_line(line)
-			&& !is_identifier_line(line))
+		line = get_next_line(fd);
+		if (!line)
+			return (NULL);
+		if (!empty_line(line))
 			return (line);
 		free(line);
-		line = get_next_line(fd);
 	}
 	return (NULL);
 }

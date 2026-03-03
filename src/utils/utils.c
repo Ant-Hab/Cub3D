@@ -6,14 +6,13 @@
 /*   By: achowdhu <achowdhu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 14:35:45 by achowdhu          #+#    #+#             */
-/*   Updated: 2026/03/03 12:43:28 by achowdhu         ###   ########.fr       */
+/*   Updated: 2026/03/03 17:58:48 by achowdhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
 /* Prints error message, frees allocated game memory, and exits program */
-
 void	free_game(t_game *game)
 {
 	if (!game)
@@ -66,26 +65,6 @@ void	free_tab(char **tab)
 	free(tab);
 }
 
-/* Performs recursive flood fill to verify map is fully enclosed */
-int	flood_fill(char **copy, int x, int y, int max_y)
-{
-	if (y < 0 || y >= max_y || x < 0 || !copy[y] || !copy[y][x]
-		|| copy[y][x] == ' ')
-		return (1);
-	if (copy[y][x] == '1' || copy[y][x] == 'V')
-		return (0);
-	copy[y][x] = 'V';
-	if (flood_fill(copy, x + 1, y, max_y))
-		return (1);
-	if (flood_fill(copy, x - 1, y, max_y))
-		return (1);
-	if (flood_fill(copy, x, y + 1, max_y))
-		return (1);
-	if (flood_fill(copy, x, y - 1, max_y))
-		return (1);
-	return (0);
-}
-
 /* Checks if a line is empty or contains only whitespace characters */
 bool	empty_line(char *line)
 {
@@ -94,9 +73,32 @@ bool	empty_line(char *line)
 	i = 0;
 	if (!line)
 		return (true);
-	while (line[i] && (line[i] == ' '
-			|| line[i] == '\t'
-			|| line[i] == '\n'))
+	while (line[i] && (line[i] == ' ' || line[i] == '\t'
+			|| line[i] == '\n' || line[i] == '\r'))
 		i++;
 	return (line[i] == '\0');
+}
+
+/*Picks up exactly where Phase 1 left off and reads grid */
+t_list	*read_map_to_list(int fd)
+{
+	t_list	*lst;
+	char	*line;
+	char	*tmp;
+
+	lst = NULL;
+	line = skip_to_map_start(fd);
+	while (line)
+	{
+		if (empty_line(line))
+		{
+			free(line);
+			break ;
+		}
+		tmp = ft_strtrim(line, "\r\n");
+		ft_lstadd_back(&lst, ft_lstnew(tmp));
+		free(line);
+		line = get_next_line(fd);
+	}
+	return (lst);
 }
