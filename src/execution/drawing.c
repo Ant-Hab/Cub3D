@@ -6,16 +6,11 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 14:05:22 by jaeklee           #+#    #+#             */
-/*   Updated: 2026/03/05 14:59:13 by jaeklee          ###   ########.fr       */
+/*   Updated: 2026/03/05 17:05:42 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-int	argb(int a, int r, int g, int b)
-{
-	return ((a << 24) | (r << 16) | (g << 8) | b);
-}
 
 static void	draw_ceiling(t_game *game, int x, int draw_top)
 {
@@ -32,14 +27,27 @@ static void	draw_ceiling(t_game *game, int x, int draw_top)
 	}
 }
 
-// 벽 텍스처 그리기
-static void	draw_wall(t_ray *ray, t_game *game, int x, mlx_texture_t *tex,
-		int tex_x)
+static mlx_texture_t	*get_wall_texture(t_ray *ray, t_game *game)
 {
-	int	y;
-	int	tex_y;
-	int	color;
+	if (ray->wall_texture == game->texture->no)
+		return (game->texture->no_tex);
+	if (ray->wall_texture == game->texture->so)
+		return (game->texture->so_tex);
+	if (ray->wall_texture == game->texture->we)
+		return (game->texture->we_tex);
+	if (ray->wall_texture == game->texture->ea)
+		return (game->texture->ea_tex);
+	return (NULL);
+}
 
+static void	draw_wall(t_ray *ray, t_game *game, int x, int tex_x)
+{
+	int				y;
+	int				tex_y;
+	int				color;
+	mlx_texture_t	*tex;
+
+	tex = get_wall_texture(ray, game);
 	y = ray->draw_top;
 	while (y <= ray->draw_bottom)
 	{
@@ -50,7 +58,6 @@ static void	draw_wall(t_ray *ray, t_game *game, int x, mlx_texture_t *tex,
 	}
 }
 
-// 바닥 그리기
 static void	draw_floor(t_game *game, int x, int draw_bottom)
 {
 	int	y;
@@ -66,7 +73,6 @@ static void	draw_floor(t_game *game, int x, int draw_bottom)
 	}
 }
 
-// 기존 draw_ray_column에서 분리된 함수 호출
 void	draw_ray_column(t_ray *ray, t_game *game, int x)
 {
 	mlx_texture_t	*tex;
@@ -75,6 +81,6 @@ void	draw_ray_column(t_ray *ray, t_game *game, int x)
 	tex = texture_selection(ray, game);
 	tex_x = get_texture_column(ray, tex, game->player);
 	draw_ceiling(game, x, ray->draw_top);
-	draw_wall(ray, game, x, tex, tex_x);
+	draw_wall(ray, game, x, tex_x);
 	draw_floor(game, x, ray->draw_bottom);
 }

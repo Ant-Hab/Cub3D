@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 11:13:44 by jaeklee           #+#    #+#             */
-/*   Updated: 2026/03/05 14:39:56 by jaeklee          ###   ########.fr       */
+/*   Updated: 2026/03/05 16:54:11 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,5 @@ void	play_game(t_game *game, t_map *map)
 	mlx_key_hook(game->mlx, key_press, game);
 	mlx_close_hook(game->mlx, close_window, game);
 	mlx_loop_hook(game->mlx, game_loop, game);
-	printf("debug2\n");
 	mlx_loop(game->mlx);
-	printf("debug3\n");
 }

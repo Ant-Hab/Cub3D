@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 14:29:42 by achowdhu          #+#    #+#             */
-/*   Updated: 2026/03/05 11:11:20 by jaeklee          ###   ########.fr       */
+/*   Updated: 2026/03/05 16:54:01 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,7 @@ int main(int argc, char **argv)
     print_map(&game);
     debug_validate_parsing(&game);
 
-    // 게임 시작
     play_game(&game, game.map);
-    printf("debug6\n");
-
-    // 게임 종료 후 정리
     free_game(&game);
 
     return (0);
