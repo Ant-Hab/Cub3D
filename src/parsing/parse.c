@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: achowdhu <achowdhu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 14:35:24 by achowdhu          #+#    #+#             */
-/*   Updated: 2026/03/05 11:12:04 by jaeklee          ###   ########.fr       */
+/*   Updated: 2026/03/05 14:42:55 by achowdhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	init_game_data(t_game *game)
 	game->ceiling.r = -1;
 }
 
-/* One pass parsing: Opens file once, parses IDs, then maps grid sequentially */
+/* Opens the file once, reads textures and colors, then reads the map */
 bool	parse(t_game *game, char *argv)
 {
 	int	fd;
@@ -86,13 +86,22 @@ bool	parse(t_game *game, char *argv)
 	init_game_data(game);
 	fd = open(argv, O_RDONLY);
 	if (fd < 0)
-		return (false);
+		return (free_game(game), false);
 	if (!parse_identifiers(game, fd))
-		return (printf("Error\nIDs missing or invalid\n"), close(fd), false);
+	{
+		printf("Error\nIDs missing or invalid\n");
+		return (close(fd), free_game(game), false);
+	}
 	if (!parse_map_from_fd(game->map, fd))
-		return (printf("Error\nMap parsing failed\n"), close(fd), false);
+	{
+		printf("Error\nMap parsing failed\n");
+		return (close(fd), free_game(game), false);
+	}
 	close(fd);
 	if (!validate_map(game->map))
-		return (printf("Error\nMap invalid\n"), false);
+	{
+		printf("Error\nMap invalid\n");
+		return (free_game(game), false);
+	}
 	return (true);
 }
