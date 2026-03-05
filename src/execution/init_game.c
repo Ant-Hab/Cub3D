@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_game.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: achowdhu <achowdhu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 11:09:19 by jaeklee           #+#    #+#             */
-/*   Updated: 2026/03/05 14:56:36 by jaeklee          ###   ########.fr       */
+/*   Updated: 2026/03/05 16:43:32 by achowdhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ void	init_graphics(t_game *game)
 void	init_game_state(t_game *game, t_map *map)
 {
 	game->map = map;
-	game->player = malloc(sizeof(t_player));
 	if (!game->player)
 		error_exit(game, "Player malloc failed");
 	game->player->x = map->p_x + 0.5f;
