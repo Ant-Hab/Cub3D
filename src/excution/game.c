@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 11:13:44 by jaeklee           #+#    #+#             */
-/*   Updated: 2026/03/03 10:38:31 by jaeklee          ###   ########.fr       */
+/*   Updated: 2026/03/05 12:04:08 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,92 +40,87 @@ static void	rotate_player(t_player *p, float rot)
 	p->plane_x = p->plane_x * cos(rot) - p->plane_y * sin(rot);
 	p->plane_y = old_plane_x * sin(rot) + p->plane_y * cos(rot);
 }
-void	movement(t_game *game)
+void movement(t_game *game)
 {
-	t_player	*p;
-	float		move;
+	t_player *p = game->player;
+	float move = p->move_speed;
+	float next_x, next_y;
 
-	p = game->player;
-	move = p->move_speed;
-
+	// Forward
 	if (game->forward)
 	{
-		if (!is_wall(game, p->x + p->dir_x * move, p->y))
-			p->x += p->dir_x * move;
-		if (!is_wall(game, p->x, p->y + p->dir_y * move))
-			p->y += p->dir_y * move;
+		next_x = p->x + p->dir_x * move;
+		next_y = p->y + p->dir_y * move;
+
+		if (!is_wall(game, next_x, p->y))
+			p->x = next_x;
+		if (!is_wall(game, p->x, next_y))
+			p->y = next_y;
 	}
+
+	// Backward
 	if (game->back)
 	{
-		if (!is_wall(game, p->x - p->dir_x * move, p->y))
-			p->x -= p->dir_x * move;
-		if (!is_wall(game, p->x, p->y - p->dir_y * move))
-			p->y -= p->dir_y * move;
+		next_x = p->x - p->dir_x * move;
+		next_y = p->y - p->dir_y * move;
+
+		if (!is_wall(game, next_x, p->y))
+			p->x = next_x;
+		if (!is_wall(game, p->x, next_y))
+			p->y = next_y;
 	}
+
+	// Left (strafe)
 	if (game->left)
 	{
-		if (!is_wall(game, p->x - p->plane_x * move, p->y))
-			p->x -= p->plane_x * move;
-		if (!is_wall(game, p->x, p->y - p->plane_y * move))
-			p->y -= p->plane_y * move;
+		next_x = p->x - p->plane_x * move;
+		next_y = p->y - p->plane_y * move;
+
+		if (!is_wall(game, next_x, p->y))
+			p->x = next_x;
+		if (!is_wall(game, p->x, next_y))
+			p->y = next_y;
 	}
+
+	// Right (strafe)
 	if (game->right)
 	{
-		if (!is_wall(game, p->x + p->plane_x * move, p->y))
-			p->x += p->plane_x * move;
-		if (!is_wall(game, p->x, p->y + p->plane_y * move))
-			p->y += p->plane_y * move;
+		next_x = p->x + p->plane_x * move;
+		next_y = p->y + p->plane_y * move;
+
+		if (!is_wall(game, next_x, p->y))
+			p->x = next_x;
+		if (!is_wall(game, p->x, next_y))
+			p->y = next_y;
 	}
+
+	// Rotation
 	if (game->rotate_left)
 		rotate_player(p, -p->rot_speed);
 	if (game->rotate_right)
 		rotate_player(p, p->rot_speed);
+
+	// 🔹 map boundary clamp: 항상 map 안에 위치하도록
+	if (p->x < 0.01) p->x = 0.01;
+	if (p->y < 0.01) p->y = 0.01;
+	if (p->x > game->map->width - 0.01) p->x = game->map->width - 0.01;
+	if (p->y > game->map->height - 0.01) p->y = game->map->height - 0.01;
 }
 
-static inline int rgba(int r, int g, int b, int a)
-{
-    return (r << 24 | g << 16 | b << 8 | a);
-}
 
-void	draw(t_game *game)
-{
-	int	x;
-	int	y;
-	int	ceil_color;
-	int	floor_color;
 
-	ceil_color = rgba(game->ceiling.r,
-					  game->ceiling.g,
-					  game->ceiling.b, 255);
-	floor_color = rgba(game->floor.r,
-					   game->floor.g,
-					   game->floor.b, 255);
-
-	y = 0;
-	while (y < game->height)
-	{
-		x = 0;
-		while (x < game->width)
-		{
-			if (y < game->height / 2)
-				mlx_put_pixel(game->img, x, y, ceil_color);
-			else
-				mlx_put_pixel(game->img, x, y, floor_color);
-			x++;
-		}
-		y++;
-	}
-}
 
 void	game_loop(void *param)
 {
 	t_game	*game;
 
 	game = (t_game *)param;
+	printf("forward: %d\n", game->forward);
 	movement(game);
 	raycast(game);
-	draw(game);
+	mlx_image_to_window(game->mlx, game->img, 0, 0);
 }
+
 
 
 void play_game(t_game *game, t_map *map)
@@ -137,5 +132,7 @@ void play_game(t_game *game, t_map *map)
 	mlx_key_hook(game->mlx, key_press, game);
 	mlx_close_hook(game->mlx, close_window, game);
 	mlx_loop_hook(game->mlx, game_loop, game);
+	printf("debug2\n");
 	mlx_loop(game->mlx);
+	printf("debug3\n");
 }

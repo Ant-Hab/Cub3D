@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 11:31:48 by jaeklee           #+#    #+#             */
-/*   Updated: 2026/03/03 12:22:11 by jaeklee          ###   ########.fr       */
+/*   Updated: 2026/03/05 11:32:22 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void key_press(mlx_key_data_t keydata, void *param)
         else if (keydata.key == MLX_KEY_RIGHT)
             game->rotate_right = true;
         else if (keydata.key == MLX_KEY_ESCAPE)
-            close_window(game);
+            mlx_close_window(game->mlx);
     }
     else if (keydata.action == MLX_RELEASE)
     {
@@ -69,8 +69,10 @@ void resize(int width, int height, void *param)
 
 void close_window(void *param)
 {
-	t_game *game = (t_game *)param;
+	t_game *game = param;
 
-	free_game(game);
 	mlx_close_window(game->mlx);
+	mlx_terminate(game->mlx);
+	free_game(game);
+	exit(0);
 }

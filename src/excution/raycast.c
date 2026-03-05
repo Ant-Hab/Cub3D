@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 11:25:59 by jaeklee           #+#    #+#             */
-/*   Updated: 2026/03/03 10:57:27 by jaeklee          ###   ########.fr       */
+/*   Updated: 2026/03/05 12:08:07 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,71 +73,100 @@ void	dda_and_wall(t_game *game, t_ray *ray)
 	{
 		if (ray->side_dist_x < ray->side_dist_y)
 		{
-			ray->side_dist_x += ray->del_dist_x; // 다음 X선까지 거리 증가
-			ray->map_x += ray->step_x;           // X 방향 이동
-			ray->hit_axis = 0;                   // 세로벽 가능
+			ray->side_dist_x += ray->del_dist_x;
+			ray->map_x += ray->step_x;
+			ray->hit_axis = 0;
 		}
 		else
 		{
-			ray->side_dist_y += ray->del_dist_y; // 다음 Y선까지 거리 증가
-			ray->map_y += ray->step_y;           // Y 방향 이동
-			ray->hit_axis = 1;                   // 가로벽 가능
+			ray->side_dist_y += ray->del_dist_y;
+			ray->map_y += ray->step_y;
+			ray->hit_axis = 1;
 		}
+
+		// 🔹 Map boundary 체크
+		if (ray->map_x < 0 || ray->map_y < 0
+			|| ray->map_x >= game->map->width
+			|| ray->map_y >= game->map->height)
+		{
+			ray->hit_wall = 1;  // 경계 밖이면 벽으로 처리
+			ray->wall_texture = game->texture->no; // 임의 texture
+			break;
+		}
+
 		if (is_wall(game, ray->map_x, ray->map_y))
 		{
 			ray->hit_wall = 1;
 			if (ray->hit_axis == 0)  // 세로벽
-			{
-				if (ray->step_x > 0)
-					ray->wall_texture = game->texture->we;
-				else
-					ray->wall_texture = game->texture->ea;
-			}
+				ray->wall_texture = (ray->step_x > 0) ? game->texture->we : game->texture->ea;
 			else  // 가로벽
-			{
-				if (ray->step_y > 0)
-					ray->wall_texture = game->texture->no;
-				else
-					ray->wall_texture = game->texture->so;
-			}
+				ray->wall_texture = (ray->step_y > 0) ? game->texture->no : game->texture->so;
 		}
 	}
 }
 
-void calculate_wall( t_game *game, t_ray *ray)
+void calculate_wall(t_game *game, t_ray *ray)
 {
 	if (ray->hit_axis == 0)
 		ray->distance = ray->side_dist_x - ray->del_dist_x;
 	else
 		ray->distance = ray->side_dist_y - ray->del_dist_y;
+
+	if (ray->distance < 0.01)
+		ray->distance = 0.01;  // 최소 거리
+
 	ray->pixel_height = (int)(game->height / ray->distance);
 	ray->draw_top = (game->height / 2) - (ray->pixel_height / 2);
 	ray->draw_bottom = (game->height / 2) + (ray->pixel_height / 2);
+
+	// 화면 범위 clamp
+	if (ray->draw_top < 0) ray->draw_top = 0;
+	if (ray->draw_bottom >= game->height) ray->draw_bottom = game->height - 1;
 }
-void	draw_ray_column(t_ray *ray, t_game *game, int x)
+
+int argb(int a, int r, int g, int b)
 {
-	mlx_texture_t *tex = texture_selection(ray, game);
-	int tex_x = get_texture_column(ray, tex, game->player);
-	int y;
+    return (a << 24) | (r << 16) | (g << 8) | b;
+}
 
-	for (y = 0; y < ray->draw_top; y++)
-	{
-		mlx_put_pixel(game->img, x, y,
-			(game->ceiling.r << 16) | (game->ceiling.g << 8) | game->ceiling.b);
-	}
+void draw_ray_column(t_ray *ray, t_game *game, int x)
+{
+    mlx_texture_t *tex = texture_selection(ray, game);
+    int tex_x = get_texture_column(ray, tex, game->player);
+    int y;
 
-	for (y = ray->draw_top; y <= ray->draw_bottom; y++)
-	{
-		int tex_y = get_texture_row(y, ray, tex);
-		int color = get_texture_color(tex, tex_x, tex_y);
-		mlx_put_pixel(game->img, x, y, color);
-	}
+    // 천장
+    int ceil_color = argb(255, game->ceiling.r, game->ceiling.g, game->ceiling.b);
+    y = 0;
+    while (y < ray->draw_top)
+    {
+        mlx_put_pixel(game->img, x, y, ceil_color);
+        y++;
+    }
 
-	for (y = ray->draw_bottom + 1; y < game->height; y++)
-	{
-		mlx_put_pixel(game->img, x, y,
-			(game->floor.r << 16) | (game->floor.g << 8) | game->floor.b);
-	}
+    // 벽
+    y = ray->draw_top;
+    while (y <= ray->draw_bottom)
+    {
+        int tex_y = get_texture_row(y, ray, tex);
+        int tex_color = get_texture_color(tex, tex_x, tex_y); 
+
+        // 텍스처도 ARGB 맞춤
+        int color = 0xFF000000 | (tex_color & 0x00FFFFFF); 
+        // 기존 RGB는 그대로, Alpha만 255로 설정
+
+        mlx_put_pixel(game->img, x, y, color);
+        y++;
+    }
+
+    // 바닥
+    int floor_color = argb(255, game->floor.r, game->floor.g, game->floor.b);
+    y = ray->draw_bottom + 1;
+    while (y < game->height)
+    {
+        mlx_put_pixel(game->img, x, y, floor_color);
+        y++;
+    }
 }
 void raycast(t_game *game)
 {

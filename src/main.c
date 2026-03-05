@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achowdhu <achowdhu@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 14:29:42 by achowdhu          #+#    #+#             */
-/*   Updated: 2026/03/03 18:05:43 by achowdhu         ###   ########.fr       */
+/*   Updated: 2026/03/05 11:11:20 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,9 @@ int main(int argc, char **argv)
         return (1);
     }
 
-    printf("debug0\n");
     // Pass &game so parse fills the struct in main
     if (!parse(&game, argv[1]))
         return (1);
-    printf("debug5\n");
     /* Debug Parsing*/
     print_textures(&game);
     print_map(&game);

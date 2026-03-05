@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achowdhu <achowdhu@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 14:35:24 by achowdhu          #+#    #+#             */
-/*   Updated: 2026/03/03 17:59:21 by achowdhu         ###   ########.fr       */
+/*   Updated: 2026/03/05 11:12:04 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,20 +83,16 @@ bool	parse(t_game *game, char *argv)
 {
 	int	fd;
 
-	printf("debug1\n");
 	init_game_data(game);
 	fd = open(argv, O_RDONLY);
 	if (fd < 0)
 		return (false);
 	if (!parse_identifiers(game, fd))
 		return (printf("Error\nIDs missing or invalid\n"), close(fd), false);
-	printf("debug2\n");
 	if (!parse_map_from_fd(game->map, fd))
 		return (printf("Error\nMap parsing failed\n"), close(fd), false);
 	close(fd);
-	printf("debug3\n");
 	if (!validate_map(game->map))
 		return (printf("Error\nMap invalid\n"), false);
-	printf("debug4\n");
 	return (true);
 }
