@@ -6,11 +6,27 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 11:31:48 by jaeklee           #+#    #+#             */
-/*   Updated: 2026/03/05 16:18:30 by jaeklee          ###   ########.fr       */
+/*   Updated: 2026/03/05 16:52:51 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+static void	key_release(t_game *game, mlx_key_data_t keydata)
+{
+	if (keydata.key == MLX_KEY_W)
+		game->forward = false;
+	else if (keydata.key == MLX_KEY_S)
+		game->back = false;
+	else if (keydata.key == MLX_KEY_A)
+		game->left = false;
+	else if (keydata.key == MLX_KEY_D)
+		game->right = false;
+	else if (keydata.key == MLX_KEY_LEFT)
+		game->rotate_left = false;
+	else if (keydata.key == MLX_KEY_RIGHT)
+		game->rotate_right = false;
+}
 
 void	key_press(mlx_key_data_t keydata, void *param)
 {
@@ -35,20 +51,7 @@ void	key_press(mlx_key_data_t keydata, void *param)
 			mlx_close_window(game->mlx);
 	}
 	else if (keydata.action == MLX_RELEASE)
-	{
-		if (keydata.key == MLX_KEY_W)
-			game->forward = false;
-		else if (keydata.key == MLX_KEY_S)
-			game->back = false;
-		else if (keydata.key == MLX_KEY_A)
-			game->left = false;
-		else if (keydata.key == MLX_KEY_D)
-			game->right = false;
-		else if (keydata.key == MLX_KEY_LEFT)
-			game->rotate_left = false;
-		else if (keydata.key == MLX_KEY_RIGHT)
-			game->rotate_right = false;
-	}
+		key_release(game, keydata);
 }
 
 void	resize(int width, int height, void *param)
