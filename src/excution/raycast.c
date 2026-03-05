@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 11:25:59 by jaeklee           #+#    #+#             */
-/*   Updated: 2026/03/05 12:08:07 by jaeklee          ###   ########.fr       */
+/*   Updated: 2026/03/05 14:08:28 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,55 +119,10 @@ void calculate_wall(t_game *game, t_ray *ray)
 	ray->draw_top = (game->height / 2) - (ray->pixel_height / 2);
 	ray->draw_bottom = (game->height / 2) + (ray->pixel_height / 2);
 
-	// 화면 범위 clamp
 	if (ray->draw_top < 0) ray->draw_top = 0;
 	if (ray->draw_bottom >= game->height) ray->draw_bottom = game->height - 1;
 }
 
-int argb(int a, int r, int g, int b)
-{
-    return (a << 24) | (r << 16) | (g << 8) | b;
-}
-
-void draw_ray_column(t_ray *ray, t_game *game, int x)
-{
-    mlx_texture_t *tex = texture_selection(ray, game);
-    int tex_x = get_texture_column(ray, tex, game->player);
-    int y;
-
-    // 천장
-    int ceil_color = argb(255, game->ceiling.r, game->ceiling.g, game->ceiling.b);
-    y = 0;
-    while (y < ray->draw_top)
-    {
-        mlx_put_pixel(game->img, x, y, ceil_color);
-        y++;
-    }
-
-    // 벽
-    y = ray->draw_top;
-    while (y <= ray->draw_bottom)
-    {
-        int tex_y = get_texture_row(y, ray, tex);
-        int tex_color = get_texture_color(tex, tex_x, tex_y); 
-
-        // 텍스처도 ARGB 맞춤
-        int color = 0xFF000000 | (tex_color & 0x00FFFFFF); 
-        // 기존 RGB는 그대로, Alpha만 255로 설정
-
-        mlx_put_pixel(game->img, x, y, color);
-        y++;
-    }
-
-    // 바닥
-    int floor_color = argb(255, game->floor.r, game->floor.g, game->floor.b);
-    y = ray->draw_bottom + 1;
-    while (y < game->height)
-    {
-        mlx_put_pixel(game->img, x, y, floor_color);
-        y++;
-    }
-}
 void raycast(t_game *game)
 {
     int i;

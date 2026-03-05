@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 10:49:52 by jaeklee           #+#    #+#             */
-/*   Updated: 2026/03/03 10:42:23 by jaeklee          ###   ########.fr       */
+/*   Updated: 2026/03/05 13:58:26 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,12 +112,13 @@ int get_texture_row(int y, t_ray *ray, mlx_texture_t *tex)
 	return tex_y;
 }
 
-/* 텍스처에서 x, y 픽셀의 색상 가져오기 */
 int get_texture_color(mlx_texture_t *tex, int x, int y)
 {
-	if (!tex || !tex->pixels)
-		return 0;
+    int i = (y * tex->width + x) * 4;
+    unsigned char r = tex->pixels[i + 0];
+    unsigned char g = tex->pixels[i + 1];
+    unsigned char b = tex->pixels[i + 2];
+    unsigned char a = tex->pixels[i + 3]; // 텍스처에 alpha 없으면 255
 
-	uint32_t *pixels = (uint32_t *)tex->pixels;
-	return pixels[y * tex->width + x];
+    return (r << 24) | (g << 16) | (b << 8) | a; // MLX42 RGBA 포맷
 }

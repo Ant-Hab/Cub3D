@@ -170,6 +170,7 @@ void	init_ray_move(t_game *game,t_ray *ray);
 void	init_ray(t_game *game, t_ray *ray, int i);
 int 	is_wall(t_game *game, float x, float y);
 int 	rgba(int r, int g, int b, int a);
+void	movement(t_game *game);
 /*mlx*/
 mlx_texture_t *texture_selection(t_ray *ray, t_game *game);
 int get_texture_column(t_ray *ray, mlx_texture_t *tex, t_player *player);
