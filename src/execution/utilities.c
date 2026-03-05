@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 11:31:48 by jaeklee           #+#    #+#             */
-/*   Updated: 2026/03/05 15:07:41 by jaeklee          ###   ########.fr       */
+/*   Updated: 2026/03/05 16:18:30 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,6 @@ void	close_window(void *param)
 	t_game	*game;
 
 	game = param;
-	mlx_close_window(game->mlx);
-	mlx_terminate(game->mlx);
 	free_game(game);
 	exit(0);
 }
