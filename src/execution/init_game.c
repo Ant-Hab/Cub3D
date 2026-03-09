@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 11:09:19 by jaeklee           #+#    #+#             */
-/*   Updated: 2026/03/09 15:06:06 by jaeklee          ###   ########.fr       */
+/*   Updated: 2026/03/09 16:35:50 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,12 @@ void	init_player_direction(t_player *p, char dir)
 	p->plane_y = p->dir_x * 0.66f;
 }
 
+// If dir_x is 0:
+// ray_dir_x = 0 → the ray is cast perfectly vertical
+// According to the formula: deltaDistX = 1 / 0
+// Division by zero is not allowed → runtime error in C
+// So 1e30 -> very big number "By assigning 1e30, 
+// DDA effectively ignores movement in the x-direction
 void	init_ray(t_game *game, t_ray *ray, int i)
 {
 	double	camera_x;

@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 11:25:59 by jaeklee           #+#    #+#             */
-/*   Updated: 2026/03/05 15:05:01 by jaeklee          ###   ########.fr       */
+/*   Updated: 2026/03/09 17:16:55 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,8 @@ void	calculate_wall(t_game *game, t_ray *ray)
 		ray->distance = ray->side_dist_x - ray->del_dist_x;
 	else
 		ray->distance = ray->side_dist_y - ray->del_dist_y;
-	if (ray->distance < 0.01)
-		ray->distance = 0.01;
+	if (ray->distance < 0.9)
+		ray->distance = 0.9;
 	ray->pixel_height = (int)(game->height / ray->distance);
 	ray->draw_top = (game->height / 2) - (ray->pixel_height / 2);
 	ray->draw_bottom = (game->height / 2) + (ray->pixel_height / 2);
