@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 14:09:21 by jaeklee           #+#    #+#             */
-/*   Updated: 2026/03/05 15:03:10 by jaeklee          ###   ########.fr       */
+/*   Updated: 2026/03/09 16:21:57 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,19 +39,6 @@ static void	move_forward_backward(t_game *game, float move)
 	}
 }
 
-static void	rotate_player(t_player *p, float rot)
-{
-	float	old_dir_x;
-	float	old_plane_x;
-
-	old_dir_x = p->dir_x;
-	old_plane_x = p->plane_x;
-	p->dir_x = p->dir_x * cos(rot) - p->dir_y * sin(rot);
-	p->dir_y = old_dir_x * sin(rot) + p->dir_y * cos(rot);
-	p->plane_x = p->plane_x * cos(rot) - p->plane_y * sin(rot);
-	p->plane_y = old_plane_x * sin(rot) + p->plane_y * cos(rot);
-}
-
 static void	move_left_right(t_game *game, float move)
 {
 	t_player	*p;
@@ -78,8 +65,21 @@ static void	move_left_right(t_game *game, float move)
 			p->y = next_y;
 	}
 }
+//Use fomula to rotate player
+static void	rotate_player(t_player *p, float rot)
+{
+	float	old_dir_x;
+	float	old_plane_x;
 
-// 회전 및 경계 처리
+	old_dir_x = p->dir_x;
+	old_plane_x = p->plane_x;
+	p->dir_x = p->dir_x * cos(rot) - p->dir_y * sin(rot);
+	p->dir_y = old_dir_x * sin(rot) + p->dir_y * cos(rot);
+	p->plane_x = p->plane_x * cos(rot) - p->plane_y * sin(rot);
+	p->plane_y = old_plane_x * sin(rot) + p->plane_y * cos(rot);
+}
+
+// if 0 then it can cause problems in wall detection or raycasting calculations.
 static void	rotate_and_clamp(t_game *game)
 {
 	t_player	*p;
@@ -99,7 +99,6 @@ static void	rotate_and_clamp(t_game *game)
 		p->y = game->map->height - 0.01;
 }
 
-// 기존 movement 함수에서 분리된 함수 호출
 void	movement(t_game *game)
 {
 	float	move;

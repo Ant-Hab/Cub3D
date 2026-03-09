@@ -48,19 +48,14 @@ typedef struct s_color
 }	t_color;
 typedef struct s_player
 {
-	// 현재 위치 (x, y)
+
 	float	x;
 	float	y;
 
-	// 방향 벡터
 	float	dir_x;
 	float	dir_y;
-
-	// 카메라 평면 벡터 (2D 레이캐스팅용)
 	float	plane_x;
 	float	plane_y;
-
-	// 이동/회전 속도
 	float	move_speed;
 	float	rot_speed;
 
