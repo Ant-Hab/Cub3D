@@ -80,13 +80,10 @@ typedef struct s_map
 
 typedef struct s_ray
 {
-	// 현재 레이가 위치한 맵 칸
 	int		map_x;
 	int		map_y;
-	// 레이 방향 벡터
 	double	dir_x;
 	double	dir_y;
-	// DDA에서 레이가 한 칸 이동할 때 실제로 이동하는 거리 delta_distance
 	double	del_dist_x;
 	double	del_dist_y;
 	double	side_dist_x;
