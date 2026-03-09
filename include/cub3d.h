@@ -89,21 +89,17 @@ typedef struct s_ray
 	// DDA에서 레이가 한 칸 이동할 때 실제로 이동하는 거리 delta_distance
 	double	del_dist_x;
 	double	del_dist_y;
-	// 다음 격자선까지 거리
 	double	side_dist_x;
 	double	side_dist_y;
-	// 이동 방향 (-1 or 1)
 	int		step_x;
 	int		step_y;
-	// 벽 충돌 여부
 	int		hit_wall;
-	// 어떤 축의 벽인지 (0 = x, 1 = y)
 	int		hit_axis;
 	char	*wall_texture;
-	double	distance;    // 플레이어~벽 직선 거리
-	int		pixel_height; // 화면에서 벽 높이
-	int		draw_top;     // 화면에서 그릴 시작점
-	int		draw_bottom;  // 화면에서 그릴 끝점
+	double	distance;
+	int		pixel_height;
+	int		draw_top;
+	int		draw_bottom;
 	char	*texture_id;
 }	t_ray;
 
@@ -114,13 +110,11 @@ typedef struct s_game
 	t_color		floor;
 	t_color		ceiling;
 	t_map		*map;
-	t_player	*player;      // player struct inneed
+	t_player	*player;
 	mlx_t		*mlx;
 	mlx_image_t	*img;
 	int			width;
 	int			height;
-
-	// key 
 	bool		forward;
 	bool		back;
 	bool		left;
@@ -186,83 +180,3 @@ void resize(int width, int height, void *param);
 void close_window(void *param);
 
 #endif
-
-// refer Data Structure
-
-// typedef struct s_player
-// {
-// 	double	x;
-// 	double	y;
-// 	char	view;
-// 	double	dir_x;
-// 	double	dir_y;
-// 	double	plane_x;
-// 	double	plane_y;
-// }	t_player;
-
-// typedef struct s_map
-// {
-// 	char			**chart;
-// 	int				max_x;
-// 	int				max_y;
-// 	int				start_line;
-// 	t_player		*player;
-// 	uint32_t		floor_color;
-// 	uint32_t		ceil_color;
-// 	char			*north;
-// 	char			*south;
-// 	char			*west;
-// 	char			*east;
-// 	mlx_texture_t	*north_tex;
-// 	mlx_texture_t	*south_tex;
-// 	mlx_texture_t	*west_tex;
-// 	mlx_texture_t	*east_tex;
-// }	t_map;
-
-// typedef struct s_game
-// {
-// 	t_map		*map;
-// 	t_player	*player;
-// 	mlx_t		*mlx;
-// 	mlx_image_t	*img;
-// 	int			width;
-// 	int			height;
-// 	bool		forward;
-// 	bool		back;
-// 	bool		left;
-// 	bool		right;
-// 	bool		rotate_left;
-// 	bool		rotate_right;
-// }	t_game;
-
-// typedef struct s_ray_dir
-// {
-// 	double	camera_x;
-// 	double	dir_x;
-// 	double	dir_y;
-// 	int		map_x;
-// 	int		map_y;
-// 	double	side_dist_x;
-// 	double	side_dist_y;
-// 	double	delta_dist_x;
-// 	double	delta_dist_y;
-// 	int		step_x;
-// 	int		step_y;
-// 	int		hit_wall;
-// 	int		side;
-// }	t_ray_dir;
-
-// typedef struct s_ray_wall
-// {
-// 	double	perp_dist;
-// 	int		line_height;
-// 	int		start_draw;
-// 	int		end_draw;
-// 	int		texture;
-// }	t_ray_wall;
-
-// typedef struct s_ray
-// {
-// 	t_ray_dir	dir;
-// 	t_ray_wall	wall;
-// }	t_ray;

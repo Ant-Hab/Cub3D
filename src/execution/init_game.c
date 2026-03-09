@@ -6,13 +6,12 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 11:09:19 by jaeklee           #+#    #+#             */
-/*   Updated: 2026/03/05 17:05:30 by jaeklee          ###   ########.fr       */
+/*   Updated: 2026/03/09 15:06:06 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-// MLX42 및 이미지 초기화만 담당
 void	init_graphics(t_game *game)
 {
 	game->width = WIDTH;
@@ -27,6 +26,9 @@ void	init_graphics(t_game *game)
 		error_exit(game, "Image display failed");
 }
 
+//game->player->x = map->p_x + 0.5f(Make player start in the middle)
+//0.05 radians ≈ 2.8 degree
+//	game->forward = false; key_init
 void	init_game_state(t_game *game, t_map *map)
 {
 	game->map = map;
