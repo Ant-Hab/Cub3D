@@ -6,7 +6,7 @@
 /*   By: achowdhu <achowdhu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 14:35:24 by achowdhu          #+#    #+#             */
-/*   Updated: 2026/03/05 16:28:22 by achowdhu         ###   ########.fr       */
+/*   Updated: 2026/03/09 14:55:38 by achowdhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static bool	validate_map(t_map *map)
 	int		players;
 
 	players = get_player_pos(map);
-	if (players != 1)
+	if (players == -1 || players != 1)
 		return (false);
 	tmp = copy_grid(map->grid, map->height);
 	if (!tmp)

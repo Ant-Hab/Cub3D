@@ -6,7 +6,7 @@
 /*   By: achowdhu <achowdhu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/26 17:27:50 by achowdhu          #+#    #+#             */
-/*   Updated: 2026/03/03 17:57:12 by achowdhu         ###   ########.fr       */
+/*   Updated: 2026/03/09 14:55:14 by achowdhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,14 +97,14 @@ int	get_player_pos(t_map *map)
 		x = -1;
 		while (map->grid[y][++x])
 		{
+			if (!ft_strchr("01NSEW ", map->grid[y][x]))
+				return (-1); /* Invalid character found! */
 			if (ft_strchr("NSEW", map->grid[y][x]))
 			{
 				map->p_x = x;
 				map->p_y = y;
 				map->start_dir = map->grid[y][x];
 				p_found++;
-				if (p_found > 1)
-					return (p_found);
 			}
 		}
 	}
