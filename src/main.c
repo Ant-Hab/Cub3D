@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: achowdhu <achowdhu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 14:29:42 by achowdhu          #+#    #+#             */
-/*   Updated: 2026/03/10 16:19:11 by jaeklee          ###   ########.fr       */
+/*   Updated: 2026/03/10 17:11:16 by achowdhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,6 @@ int	main(int argc, char **argv)
 	}
 	if (!parse(&game, argv[1]))
 		return (1);
-	print_textures(&game);
-	print_map(&game);
-	debug_validate_parsing(&game);
 	play_game(&game, game.map);
 	free_game(&game);
 	return (0);
