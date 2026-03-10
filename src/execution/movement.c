@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 14:09:21 by jaeklee           #+#    #+#             */
-/*   Updated: 2026/03/10 13:25:12 by jaeklee          ###   ########.fr       */
+/*   Updated: 2026/03/10 16:15:56 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,20 +84,22 @@ static void	rotate_player(t_player *p, float rot)
 static void	rotate_and_clamp(t_game *game)
 {
 	t_player	*p;
+	double		margin;
 
 	p = game->player;
+	margin = 0.1;
 	if (game->rotate_left)
 		rotate_player(p, -p->rot_speed);
 	if (game->rotate_right)
 		rotate_player(p, p->rot_speed);
-	if (p->x < 0.5)
-		p->x = 0.5;
-	if (p->y < 0.5)
-		p->y = 0.5;
-	if (p->x > game->map->width - 0.5)
-		p->x = game->map->width - 0.5;
-	if (p->y > game->map->height - 0.5)
-		p->y = game->map->height - 0.5;
+	if (p->x < margin)
+		p->x = margin;
+	if (p->y < margin)
+		p->y = margin;
+	if (p->x > game->map->width - margin)
+		p->x = game->map->width - margin;
+	if (p->y > game->map->height - margin)
+		p->y = game->map->height - margin;
 }
 
 void	movement(t_game *game)
