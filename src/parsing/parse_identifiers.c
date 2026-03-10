@@ -6,7 +6,7 @@
 /*   By: achowdhu <achowdhu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 17:57:42 by achowdhu          #+#    #+#             */
-/*   Updated: 2026/03/10 14:19:18 by achowdhu         ###   ########.fr       */
+/*   Updated: 2026/03/10 14:31:40 by achowdhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ void	store_identifier(t_game *game, char *line)
 			assign_texture(game, tk, path);
 		free(path);
 	}
+	free_tab(tk);
 }
 
 /* Check if all required identifiers are set */
