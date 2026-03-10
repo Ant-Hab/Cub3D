@@ -6,12 +6,13 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 11:25:59 by jaeklee           #+#    #+#             */
-/*   Updated: 2026/03/10 13:36:59 by jaeklee          ###   ########.fr       */
+/*   Updated: 2026/03/10 13:57:15 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
+//Init for use DDA where ray should start
 void	init_ray_move(t_game *game, t_ray *ray)
 {
 	if (ray->dir_x < 0)
@@ -38,6 +39,7 @@ void	init_ray_move(t_game *game, t_ray *ray)
 	}
 }
 
+// check if hit the wall and which side of wall
 static void	check_wall_and_bounds(t_game *game, t_ray *ray)
 {
 	if (ray->map_x < 0 || ray->map_y < 0 || ray->map_x >= game->map->width
