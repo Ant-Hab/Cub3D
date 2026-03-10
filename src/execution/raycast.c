@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 11:25:59 by jaeklee           #+#    #+#             */
-/*   Updated: 2026/03/10 13:57:15 by jaeklee          ###   ########.fr       */
+/*   Updated: 2026/03/10 16:09:34 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ void	dda_and_wall(t_game *game, t_ray *ray)
 	}
 }
 
+// when ray hits the wall, calculate wall's location and height
 void	calculate_wall(t_game *game, t_ray *ray)
 {
 	if (ray->hit_axis == 0)

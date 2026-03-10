@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 14:05:22 by jaeklee           #+#    #+#             */
-/*   Updated: 2026/03/10 15:29:10 by jaeklee          ###   ########.fr       */
+/*   Updated: 2026/03/10 16:05:30 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,9 @@ static mlx_texture_t	*get_wall_texture(t_ray *ray, t_game *game)
 	return (NULL);
 }
 
+//step = (double)tex->height / ray->pixel_height;
+//Calculate how many pixels correspond to one vertical unit (one row)
+//tex_pos = current vertical position on the texture
 static void	draw_wall(t_ray *ray, t_game *game, int x, int tex_x)
 {
 	int				y;
