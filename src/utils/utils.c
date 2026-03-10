@@ -6,7 +6,7 @@
 /*   By: achowdhu <achowdhu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 14:35:45 by achowdhu          #+#    #+#             */
-/*   Updated: 2026/03/10 14:10:53 by achowdhu         ###   ########.fr       */
+/*   Updated: 2026/03/10 15:40:35 by achowdhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,34 +77,4 @@ bool	empty_line(char *line)
 			|| line[i] == '\n' || line[i] == '\r'))
 		i++;
 	return (line[i] == '\0');
-}
-
-/*Picks up exactly where Phase 1 left off and reads grid */
-t_list	*read_map_to_list(int fd)
-{
-	t_list	*lst;
-	char	*line;
-	char	*tmp;
-
-	lst = NULL;
-	line = skip_to_map_start(fd);
-	while (line && !empty_line(line))
-	{
-		tmp = ft_strtrim(line, "\r\n");
-		ft_lstadd_back(&lst, ft_lstnew(tmp));
-		free(line);
-		line = get_next_line(fd);
-	}
-	while (line)
-	{
-		if (!empty_line(line))
-		{
-			ft_lstclear(&lst, free);
-			free(line);
-			return (NULL);
-		}
-		free(line);
-		line = get_next_line(fd);
-	}
-	return (lst);
 }
