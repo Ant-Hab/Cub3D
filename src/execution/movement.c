@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 14:09:21 by jaeklee           #+#    #+#             */
-/*   Updated: 2026/03/10 13:02:41 by jaeklee          ###   ########.fr       */
+/*   Updated: 2026/03/10 13:25:12 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,8 @@ static void	move_left_right(t_game *game, float move)
 			p->y = next_y;
 	}
 }
-//Use fomula to rotate player
+
+// Use fomula to rotate player
 static void	rotate_player(t_player *p, float rot)
 {
 	float	old_dir_x;

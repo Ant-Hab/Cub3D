@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 14:05:22 by jaeklee           #+#    #+#             */
-/*   Updated: 2026/03/10 12:57:44 by jaeklee          ###   ########.fr       */
+/*   Updated: 2026/03/10 13:34:22 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,29 +43,18 @@ static mlx_texture_t	*get_wall_texture(t_ray *ray, t_game *game)
 static void	draw_wall(t_ray *ray, t_game *game, int x, int tex_x)
 {
 	int				y;
-	int				tex_y;
-	int				color;
 	double			step;
 	double			tex_pos;
 	mlx_texture_t	*tex;
 
 	tex = get_wall_texture(ray, game);
-
 	step = (double)tex->height / ray->pixel_height;
 	tex_pos = (ray->draw_top - game->height / 2 + ray->pixel_height / 2) * step;
-
 	y = ray->draw_top;
 	while (y <= ray->draw_bottom)
 	{
-		tex_y = (int)tex_pos;
-		if (tex_y < 0)
-			tex_y = 0;
-		if (tex_y >= (int)tex->height)
-			tex_y = tex->height - 1;
-
-		color = get_texture_color(tex, tex_x, tex_y);
-		mlx_put_pixel(game->img, x, y, color);
-
+		mlx_put_pixel(game->img, x, y,
+			get_texture_color(tex, tex_x, (int)tex_pos));
 		tex_pos += step;
 		y++;
 	}

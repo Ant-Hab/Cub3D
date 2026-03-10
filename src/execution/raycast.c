@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 11:25:59 by jaeklee           #+#    #+#             */
-/*   Updated: 2026/03/10 13:17:38 by jaeklee          ###   ########.fr       */
+/*   Updated: 2026/03/10 13:36:59 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,20 +95,16 @@ void	dda_and_wall(t_game *game, t_ray *ray)
 void	calculate_wall(t_game *game, t_ray *ray)
 {
 	if (ray->hit_axis == 0)
-		ray->distance = (ray->map_x - game->player->x
-				+ (1 - ray->step_x) / 2) / ray->dir_x;
+		ray->distance = (ray->map_x - game->player->x + (1 - ray->step_x) / 2)
+			/ ray->dir_x;
 	else
-		ray->distance = (ray->map_y - game->player->y
-				+ (1 - ray->step_y) / 2) / ray->dir_y;
-
+		ray->distance = (ray->map_y - game->player->y + (1 - ray->step_y) / 2)
+			/ ray->dir_y;
 	if (ray->distance < 0.01)
 		ray->distance = 0.01;
-
 	ray->pixel_height = (int)(game->height / ray->distance);
-
 	ray->draw_top = game->height / 2 - ray->pixel_height / 2;
 	ray->draw_bottom = game->height / 2 + ray->pixel_height / 2;
-
 	if (ray->draw_top < 0)
 		ray->draw_top = 0;
 	if (ray->draw_bottom >= game->height)

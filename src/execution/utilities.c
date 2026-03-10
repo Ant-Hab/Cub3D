@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 11:31:48 by jaeklee           #+#    #+#             */
-/*   Updated: 2026/03/09 15:08:51 by jaeklee          ###   ########.fr       */
+/*   Updated: 2026/03/10 13:23:20 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void	key_press(mlx_key_data_t keydata, void *param)
 	else if (keydata.action == MLX_RELEASE)
 		key_release(game, keydata);
 }
+
 // window_size resize
 void	resize(int width, int height, void *param)
 {
