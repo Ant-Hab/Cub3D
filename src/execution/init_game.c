@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 11:09:19 by jaeklee           #+#    #+#             */
-/*   Updated: 2026/03/10 16:49:20 by jaeklee          ###   ########.fr       */
+/*   Updated: 2026/03/10 17:00:42 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,9 +98,4 @@ void	init_ray(t_game *game, t_ray *ray, int i)
 		ray->del_dist_y = fabs(1 / ray->dir_y);
 	ray->hit_wall = 0;
 	ray->hit_axis = 0;
-}
-
-int	argb(int a, int r, int g, int b)
-{
-	return ((a << 24) | (r << 16) | (g << 8) | b);
 }
