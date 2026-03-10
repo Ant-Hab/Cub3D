@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 10:49:52 by jaeklee           #+#    #+#             */
-/*   Updated: 2026/03/10 15:27:14 by jaeklee          ###   ########.fr       */
+/*   Updated: 2026/03/10 15:55:27 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	load_textures(t_game *game)
 		error_exit(game, "Failed to load north texture");
 }
 
+//when ray hits the wall, decide which side of texture to draw
 mlx_texture_t	*texture_selection(t_ray *ray, t_game *game)
 {
 	if (ray->hit_axis == 0)
@@ -48,6 +49,9 @@ mlx_texture_t	*texture_selection(t_ray *ray, t_game *game)
 	}
 }
 
+//Convert the position where the ray hits the wall 
+//to a 0–1 ratio → map it to a pixel column on the texture 
+//→ flip it if needed → return the result.
 int	get_texture_column(t_ray *ray, mlx_texture_t *tex, t_player *player)
 {
 	double	wall_x;
