@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 10:49:52 by jaeklee           #+#    #+#             */
-/*   Updated: 2026/03/05 17:01:08 by jaeklee          ###   ########.fr       */
+/*   Updated: 2026/03/10 13:16:27 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,28 +59,29 @@ int	get_texture_column(t_ray *ray, mlx_texture_t *tex, t_player *player)
 		wall_x = player->x + ray->distance * ray->dir_x;
 	wall_x -= floor(wall_x);
 	tex_x = (int)(wall_x * (double)tex->width);
-	if ((ray->hit_axis == 0 && ray->dir_x > 0) || (ray->hit_axis == 1
-			&& ray->dir_y < 0))
-		tex_x = (int)tex->width - tex_x - 1;
+	if (ray->hit_axis == 0 && ray->dir_x > 0)
+		tex_x = tex->width - tex_x - 1;
+	if (ray->hit_axis == 1 && ray->dir_y < 0)
+		tex_x = tex->width - tex_x - 1;
 	return (tex_x);
 }
 
 /* 스크린 y 위치에 따른 텍스처 row 계산 */
-int	get_texture_row(int y, t_ray *ray, mlx_texture_t *tex)
-{
-	int	wall_height;
-	int	tex_height;
-	int	tex_y;
+// int	get_texture_row(int y, t_ray *ray, mlx_texture_t *tex)
+// {
+// 	int	wall_height;
+// 	int	tex_height;
+// 	int	tex_y;
 
-	wall_height = ray->draw_bottom - ray->draw_top + 1;
-	tex_height = (int)tex->height;
-	tex_y = (y - ray->draw_top) * tex_height / wall_height;
-	if (tex_y < 0)
-		tex_y = 0;
-	if (tex_y >= tex_height)
-		tex_y = tex_height - 1;
-	return (tex_y);
-}
+// 	wall_height = ray->draw_bottom - ray->draw_top + 1;
+// 	tex_height = (int)tex->height;
+// 	tex_y = (y - ray->draw_top) * tex_height / wall_height;
+// 	if (tex_y < 0)
+// 		tex_y = 0;
+// 	if (tex_y >= tex_height)
+// 		tex_y = tex_height - 1;
+// 	return (tex_y);
+// }
 
 int	get_texture_color(mlx_texture_t *tex, int x, int y)
 {
