@@ -6,7 +6,7 @@
 /*   By: achowdhu <achowdhu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 14:35:45 by achowdhu          #+#    #+#             */
-/*   Updated: 2026/03/10 15:40:35 by achowdhu         ###   ########.fr       */
+/*   Updated: 2026/03/10 19:35:35 by achowdhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	free_game(t_game *game)
 		mlx_terminate(game->mlx);
 }
 
+/* Prints "Error", a custom or system message, frees game data, and exits */
 void	error_exit(t_game *game, char *msg)
 {
 	write(2, "Error\n", 6);
