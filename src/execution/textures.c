@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 10:49:52 by jaeklee           #+#    #+#             */
-/*   Updated: 2026/03/10 13:16:27 by jaeklee          ###   ########.fr       */
+/*   Updated: 2026/03/10 15:27:14 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,23 +66,6 @@ int	get_texture_column(t_ray *ray, mlx_texture_t *tex, t_player *player)
 	return (tex_x);
 }
 
-/* 스크린 y 위치에 따른 텍스처 row 계산 */
-// int	get_texture_row(int y, t_ray *ray, mlx_texture_t *tex)
-// {
-// 	int	wall_height;
-// 	int	tex_height;
-// 	int	tex_y;
-
-// 	wall_height = ray->draw_bottom - ray->draw_top + 1;
-// 	tex_height = (int)tex->height;
-// 	tex_y = (y - ray->draw_top) * tex_height / wall_height;
-// 	if (tex_y < 0)
-// 		tex_y = 0;
-// 	if (tex_y >= tex_height)
-// 		tex_y = tex_height - 1;
-// 	return (tex_y);
-// }
-
 int	get_texture_color(mlx_texture_t *tex, int x, int y)
 {
 	int				i;
@@ -91,6 +74,14 @@ int	get_texture_color(mlx_texture_t *tex, int x, int y)
 	unsigned char	b;
 	unsigned char	a;
 
+	if (x < 0)
+		x = 0;
+	if (x >= (int)tex->width)
+		x = tex->width - 1;
+	if (y < 0)
+		y = 0;
+	if (y >= (int)tex->height)
+		y = tex->height - 1;
 	i = (y * tex->width + x) * 4;
 	r = tex->pixels[i + 0];
 	g = tex->pixels[i + 1];
