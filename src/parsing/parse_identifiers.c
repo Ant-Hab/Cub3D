@@ -6,7 +6,7 @@
 /*   By: achowdhu <achowdhu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 17:57:42 by achowdhu          #+#    #+#             */
-/*   Updated: 2026/03/03 17:57:23 by achowdhu         ###   ########.fr       */
+/*   Updated: 2026/03/10 14:19:18 by achowdhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,19 +68,27 @@ void	store_identifier(t_game *game, char *line)
 {
 	char	**tk;
 	char	*path;
+	int		fd;
 
 	tk = ft_split(line, ' ');
-	if (!tk)
-		return ;
-	if (!tk[0] || !tk[1])
+	if (!tk || !tk[0] || !tk[1])
 		return (free_tab(tk));
 	path = ft_strtrim(tk[1], " \n\t\r");
 	if (path)
 	{
-		assign_texture(game, tk, path);
+		if (tk[0][0] != 'F' && tk[0][0] != 'C')
+		{
+			fd = open(path, O_RDONLY);
+			if (fd >= 0)
+			{
+				close(fd);
+				assign_texture(game, tk, path);
+			}
+		}
+		else
+			assign_texture(game, tk, path);
 		free(path);
 	}
-	free_tab(tk);
 }
 
 /* Check if all required identifiers are set */

@@ -6,7 +6,7 @@
 /*   By: achowdhu <achowdhu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 14:35:24 by achowdhu          #+#    #+#             */
-/*   Updated: 2026/03/09 14:55:38 by achowdhu         ###   ########.fr       */
+/*   Updated: 2026/03/10 14:07:33 by achowdhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,12 @@
 /* Locates player, checks for single start, and verifies map closure */
 static bool	validate_map(t_map *map)
 {
-	char	**tmp;
-	bool	closed;
-	int		players;
+	int	players;
 
 	players = get_player_pos(map);
 	if (players == -1 || players != 1)
 		return (false);
-	tmp = copy_grid(map->grid, map->height);
-	if (!tmp)
-		return (false);
-	closed = is_closed(tmp, map->p_x, map->p_y, map->height);
-	free_tab(tmp);
-	return (closed);
+	return (is_closed(map->grid, map->p_x, map->p_y, map->height));
 }
 
 /* Converts list to grid directly using the fd passed from phase 1 */

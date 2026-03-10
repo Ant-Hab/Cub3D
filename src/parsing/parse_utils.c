@@ -6,7 +6,7 @@
 /*   By: achowdhu <achowdhu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/26 17:27:50 by achowdhu          #+#    #+#             */
-/*   Updated: 2026/03/09 14:55:14 by achowdhu         ###   ########.fr       */
+/*   Updated: 2026/03/10 14:06:17 by achowdhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,28 @@
 void	store_color(t_color *color, char *path)
 {
 	char	**rgb;
+	int		i;
+	int		commas;
 
-	rgb = ft_split(path, ',');
-	if (!rgb)
-		return ;
-	if (rgb[0] && rgb[1] && rgb[2])
+	i = -1;
+	commas = 0;
+	while (path[++i])
 	{
-		color->r = ft_atoi(rgb[0]);
-		color->g = ft_atoi(rgb[1]);
-		color->b = ft_atoi(rgb[2]);
+		if (path[i] == ',')
+			commas++;
+		else if (!ft_isdigit(path[i]) && path[i] != ' ' && path[i] != '\t')
+			return ;
 	}
+	if (commas != 2)
+		return ;
+	rgb = ft_split(path, ',');
+	if (!rgb || !rgb[0] || !rgb[1] || !rgb[2] || rgb[3])
+		return (free_tab(rgb));
+	color->r = ft_atoi(rgb[0]);
+	color->g = ft_atoi(rgb[1]);
+	color->b = ft_atoi(rgb[2]);
+	if (color->r > 255 || color->g > 255 || color->b > 255)
+		color->r = -1;
 	free_tab(rgb);
 }
 
@@ -98,7 +110,7 @@ int	get_player_pos(t_map *map)
 		while (map->grid[y][++x])
 		{
 			if (!ft_strchr("01NSEW ", map->grid[y][x]))
-				return (-1); /* Invalid character found! */
+				return (-1);
 			if (ft_strchr("NSEW", map->grid[y][x]))
 			{
 				map->p_x = x;
@@ -112,24 +124,31 @@ int	get_player_pos(t_map *map)
 }
 
 /* Recursively verifies that the player is fully enclosed by walls */
-bool	is_closed(char **grid, int x, int y, int height)
+bool	is_closed(char **grid, int px, int py, int height)
 {
-	if (y < 0 || y >= height || x < 0 || !grid[y])
-		return (false);
-	if (x >= (int)ft_strlen(grid[y]))
-		return (false);
-	if (grid[y][x] == ' ')
-		return (false);
-	if (grid[y][x] == '1' || grid[y][x] == 'V')
-		return (true);
-	grid[y][x] = 'V';
-	if (!is_closed(grid, x + 1, y, height))
-		return (false);
-	if (!is_closed(grid, x - 1, y, height))
-		return (false);
-	if (!is_closed(grid, x, y + 1, height))
-		return (false);
-	if (!is_closed(grid, x, y - 1, height))
-		return (false);
+	int	y;
+	int	x;
+
+	(void)px;
+	(void)py;
+	y = -1;
+	while (++y < height)
+	{
+		x = -1;
+		while (grid[y][++x])
+		{
+			if (ft_strchr("0NSEW", grid[y][x]))
+			{
+				if (y == 0 || y == height - 1 || x == 0 || !grid[y][x + 1])
+					return (false);
+				if (x >= (int)ft_strlen(grid[y - 1]) || grid[y - 1][x] == ' ')
+					return (false);
+				if (x >= (int)ft_strlen(grid[y + 1]) || grid[y + 1][x] == ' ')
+					return (false);
+				if (grid[y][x - 1] == ' ' || grid[y][x + 1] == ' ')
+					return (false);
+			}
+		}
+	}
 	return (true);
 }
