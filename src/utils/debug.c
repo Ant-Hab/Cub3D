@@ -6,7 +6,7 @@
 /*   By: achowdhu <achowdhu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:13:14 by achowdhu          #+#    #+#             */
-/*   Updated: 2026/03/03 18:06:00 by achowdhu         ###   ########.fr       */
+/*   Updated: 2026/03/10 15:47:32 by achowdhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,28 +68,17 @@ void    print_map(t_game *game)
         game->map->p_x, game->map->p_y, game->map->start_dir);
 }
 
-void    debug_validate_parsing(t_game *game)
+void	debug_validate_parsing(t_game *game)
 {
-    char    **tmp;
-
-    print_sep("VALIDATION CHECK");
-    if (!game || !game->map || !game->map->grid)
-    {
-        printf("Error: Cannot validate - Map/Grid NULL\n");
-        return ;
-    }
-    tmp = copy_grid(game->map->grid, game->map->height);
-    if (!tmp)
-    {
-        printf("Error: copy_grid failed\n");
-        return ;
-    }
-    
-    /* Using is_closed instead of the removed flood_fill */
-    if (is_closed(tmp, game->map->p_x, game->map->p_y, game->map->height))
-        printf("\033[1;32mMap Integrity: CLOSED (Valid)\033[0m\n");
-    else
-        printf("\033[1;31mMap Integrity: INVALID (Leaking)\033[0m\n");
-    
-    free_tab(tmp);
+	print_sep("VALIDATION CHECK");
+	if (!game || !game->map || !game->map->grid)
+	{
+		printf("Error: Cannot validate - Map/Grid NULL\n");
+		return ;
+	}
+	if (is_closed(game->map->grid, game->map->p_x,
+			game->map->p_y, game->map->height))
+		printf("\033[1;32mMap Integrity: CLOSED (Valid)\033[0m\n");
+	else
+		printf("\033[1;31mMap Integrity: INVALID (Leaking)\033[0m\n");
 }

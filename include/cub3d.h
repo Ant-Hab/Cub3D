@@ -117,24 +117,23 @@ typedef struct s_game
 
 
 /* Parsing */
-bool 	parse(t_game *game, char *argv);
+bool	parse(t_game *game, char *argv);
 bool	is_identifier_line(char *line);
 void	store_identifier(t_game *game, char *line);
 bool	all_identifiers_set(t_game *game);
 char	*skip_to_map_start(int fd);
-void	store_color(t_color *color, char *path);
-
+t_list	*read_map_to_list(int fd);
 void	convert_list_to_grid(t_list *lst, t_map *map);
-char	**copy_grid(char **grid, int height);
 int		get_player_pos(t_map *map);
 bool	is_closed(char **grid, int x, int y, int height);
+void	init_game_data(t_game *game);
+void	store_color(t_color *color, char *path);
 
 /* Utils */
-void	error_exit(t_game *game, char *msg);
 void	free_game(t_game *game);
+void	error_exit(t_game *game, char *msg);
 void	free_tab(char **tab);
 bool	empty_line(char *line);
-t_list	*read_map_to_list(int fd);
 
 /* Debug */
 void	print_textures(t_game *game);
@@ -148,9 +147,9 @@ void	init_graphics(t_game *game);
 void	init_game_state(t_game *game, t_map *map);
 void	init_player_direction(t_player *p, char dir);
 /* raycast*/
-void raycast(t_game *game);
+void 	raycast(t_game *game);
 void	draw_ray_column(t_ray *ray, t_game *game, int x);
-void calculate_wall( t_game *game, t_ray *ray);
+void 	calculate_wall( t_game *game, t_ray *ray);
 void	dda_and_wall(t_game *game, t_ray *ray);
 void	init_ray_move(t_game *game,t_ray *ray);
 void	init_ray(t_game *game, t_ray *ray, int i);

@@ -6,7 +6,7 @@
 /*   By: achowdhu <achowdhu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 14:35:24 by achowdhu          #+#    #+#             */
-/*   Updated: 2026/03/10 14:07:33 by achowdhu         ###   ########.fr       */
+/*   Updated: 2026/03/10 15:37:36 by achowdhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,29 +49,30 @@ static bool	parse_identifiers(t_game *game, int fd)
 		if (!line)
 			break ;
 		if (!empty_line(line))
+		{
+			if (!is_identifier_line(line))
+			{
+				free(line);
+				return (false);
+			}
 			store_identifier(game, line);
+		}
 		free(line);
 	}
 	return (all_identifiers_set(game));
 }
 
-/* Sets all game pointers to NULL and color values to -1 */
-void	init_game_data(t_game *game)
+/* Helper to print errors, close fd safely, and free game to save lines */
+static bool	parse_error(t_game *game, int fd, char *msg)
 {
-	ft_bzero(game, sizeof(t_game));
-	game->texture = malloc(sizeof(t_texture));
-	game->map = malloc(sizeof(t_map));
-	game->player = malloc(sizeof(t_player));
-	if (!game->texture || !game->map || !game->player)
-		error_exit(game, "Malloc failed");
-	ft_bzero(game->texture, sizeof(t_texture));
-	ft_bzero(game->map, sizeof(t_map));
-	ft_bzero(game->player, sizeof(t_player));
-	game->floor.r = -1;
-	game->ceiling.r = -1;
+	printf("Error\n%s\n", msg);
+	if (fd >= 0)
+		close(fd);
+	free_game(game);
+	return (false);
 }
 
-/* Opens the file once, reads textures and colors, then reads the map */
+/* One pass parsing: Opens file once, parses IDs, then maps grid sequentially */
 bool	parse(t_game *game, char *argv)
 {
 	int	fd;
@@ -79,22 +80,13 @@ bool	parse(t_game *game, char *argv)
 	init_game_data(game);
 	fd = open(argv, O_RDONLY);
 	if (fd < 0)
-		return (free_game(game), false);
+		return (parse_error(game, -1, "Cannot open map file"));
 	if (!parse_identifiers(game, fd))
-	{
-		printf("Error\nIDs missing or invalid\n");
-		return (close(fd), free_game(game), false);
-	}
+		return (parse_error(game, fd, "IDs missing or invalid"));
 	if (!parse_map_from_fd(game->map, fd))
-	{
-		printf("Error\nMap parsing failed\n");
-		return (close(fd), free_game(game), false);
-	}
+		return (parse_error(game, fd, "Map parsing failed"));
 	close(fd);
 	if (!validate_map(game->map))
-	{
-		printf("Error\nMap invalid\n");
-		return (free_game(game), false);
-	}
+		return (parse_error(game, -1, "Map invalid"));
 	return (true);
 }

@@ -6,7 +6,7 @@
 /*   By: achowdhu <achowdhu@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 17:57:42 by achowdhu          #+#    #+#             */
-/*   Updated: 2026/03/10 14:31:40 by achowdhu         ###   ########.fr       */
+/*   Updated: 2026/03/10 15:37:52 by achowdhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,32 +63,48 @@ static void	assign_texture(t_game *game, char **tk, char *path)
 		store_color(&game->ceiling, path);
 }
 
-/* Splits line and manages memory for identifier extraction */
-void	store_identifier(t_game *game, char *line)
+/* Helper to check permissions and assign the path, keeping Norminette happy */
+static void	handle_path(t_game *game, char **tk)
 {
-	char	**tk;
 	char	*path;
 	int		fd;
 
+	path = ft_strtrim(tk[1], " \n\r");
+	if (!path)
+		return ;
+	if (tk[0][0] != 'F' && tk[0][0] != 'C')
+	{
+		fd = open(path, O_RDONLY);
+		if (fd >= 0)
+		{
+			close(fd);
+			assign_texture(game, tk, path);
+		}
+	}
+	else
+		assign_texture(game, tk, path);
+	free(path);
+}
+
+/* Splits line, checks file permissions, and manages identifier extraction */
+void	store_identifier(t_game *game, char *line)
+{
+	char	**tk;
+	int		i;
+
+	i = -1;
+	while (line[++i])
+	{
+		if (line[i] == '\t')
+			line[i] = ' ';
+	}
 	tk = ft_split(line, ' ');
 	if (!tk || !tk[0] || !tk[1])
-		return (free_tab(tk));
-	path = ft_strtrim(tk[1], " \n\t\r");
-	if (path)
 	{
-		if (tk[0][0] != 'F' && tk[0][0] != 'C')
-		{
-			fd = open(path, O_RDONLY);
-			if (fd >= 0)
-			{
-				close(fd);
-				assign_texture(game, tk, path);
-			}
-		}
-		else
-			assign_texture(game, tk, path);
-		free(path);
+		free_tab(tk);
+		return ;
 	}
+	handle_path(game, tk);
 	free_tab(tk);
 }
 
@@ -101,21 +117,4 @@ bool	all_identifiers_set(t_game *game)
 	if (game->floor.r == -1 || game->ceiling.r == -1)
 		return (false);
 	return (true);
-}
-
-/* Skips any empty space between IDs and the map grid */
-char	*skip_to_map_start(int fd)
-{
-	char	*line;
-
-	while (1)
-	{
-		line = get_next_line(fd);
-		if (!line)
-			return (NULL);
-		if (!empty_line(line))
-			return (line);
-		free(line);
-	}
-	return (NULL);
 }
