@@ -6,7 +6,7 @@
 /*   By: jaeklee <jaeklee@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 11:09:19 by jaeklee           #+#    #+#             */
-/*   Updated: 2026/03/10 13:21:00 by jaeklee          ###   ########.fr       */
+/*   Updated: 2026/03/10 16:49:20 by jaeklee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	init_game_state(t_game *game, t_map *map)
 		error_exit(game, "Player malloc failed");
 	game->player->x = map->p_x + 0.5f;
 	game->player->y = map->p_y + 0.5f;
-	game->player->move_speed = 0.1f;
+	game->player->move_speed = 0.05f;
 	game->player->rot_speed = 0.05f;
 	init_player_direction(game->player, map->start_dir);
 	game->forward = false;
